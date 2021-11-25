@@ -11,7 +11,7 @@ if(!isset($_SESSION['auth_secret'])) {
     $_SESSION['auth_secret'] = $secret;
 }
 
-$QR = $ga->getQR('한국행동과학연구소', $_SESSION['auth_secret']);
+$QR = $ga->getQR('테스트', $_SESSION['auth_secret']);
 ?>
 
 <!DOCTYPE html>
