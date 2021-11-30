@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="HandheldFriendly" content="true" />
+
+    <title>QR 및 서명 테스트</title>
+</head>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/sweetalert/dist/sweetalert.css">
+<style>
+    body {
+        margin: 0 auto;
+        width: 95%;
+        background-color: rgb(245, 245, 245);
+    }
+    p {
+        margin: 0;
+    }
+    #qrDiv {
+        text-align: center;
+        width: 100%;
+        height: 100%;
+    }
+
+    #canvasDiv {
+        text-align: center;
+        width: 100%;
+        height: 100%;
+    }
+
+    #qrlink {
+        margin-top: 20px;
+        font-size: 15pt;
+        font-weight: bolder;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .wrapper {
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+    .signature-pad {
+        border: 1px solid black;
+        background-color: white;
+    }
+
+    #surveyPage {
+        text-align: center;
+        margin: 0 auto;
+        margin-top: 50px;
+    }
+
+    .signBtn {
+        background-color: #FFF;
+        border: 1px solid #000;
+        border-radius: 5px;
+        color: #000;
+        width: 100px;
+        height: 30px;
+    }
+
+    .signBtn:hover {
+        background-color: #000;
+        color: #FFF;
+        cursor: pointer;
+    }
+
+    .subpic {
+        position: relative;
+        width: 100px;
+        height: 30px;
+    }
+
+    .imtext {
+        position: absolute;
+        top: -5px;
+        left: 30px;
+        z-index: 1;
+        font-size: 15pt;
+        font-weight: bold;
+        opacity: 0.3;
+    }
+
+    #signImg {
+        position: absolute;
+        top: -55%;
+        left: 0;
+        width: 75pt;
+    }
+    .tableDiv {
+        vertical-align: middle;
+    }
+
+    .tableDiv thead {
+        vertical-align: middle;
+    }
+    .tableTbody{
+        font-size: 10pt;
+    }
+</style>
+
+<body>
+    <div class="container" style="margin: 0 auto;">
+
+          <div class="modal fade" id="signModal" tabindex="-1" aria-labelledby="signModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="signModalLabel">서명</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="canvasDiv">
+                        <div class="wrapper">
+                            <canvas id="signature-pad" class="signature-pad" width="200" height="100"></canvas>
+                        </div>
+                        <div id="sign"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="save" class="signBtn" data-bs-dismiss="modal">서명</button>
+                    <button id="clear" class="signBtn">지우기</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        <div id="surveyPage">
+
+            <h5>코로나19 검사 전자 문진표 작성안내</h5>
+
+            <p>전자 문진표는 전자서명을 통해 작성하실 수 있습니다.</p>
+            <br>
+
+            <div class="tableDiv">
+
+                <table class="table table-bordered border-dark align-middle">
+                    <thead>
+                        <tr>
+                            <th rowspan="2" width="5%">
+                                구분
+                            </th>
+                            <th rowspan="2" width="15%">
+                                문항
+                            </th>
+                            <th colspan="2" width="80%">
+                                답변
+                            </th>
+
+                        </tr>
+                        <tr>
+                            <th width="10%">
+                                예
+                            </th>
+                            <th width="10%">
+                                아니오
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="tableTbody">
+                        <tr>
+                            <td>
+                                1
+                            </td>
+                            <td>
+                                현재 자가격리대상입니까?
+                            </td>
+                            <td>
+                                <input type="radio" name="q1" value="1">
+                            </td>
+                            <td>
+                                <input type="radio" name="q1" value="0">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                2
+                            </td>
+                            <td>
+                                현재 가족 혹은 일상적 접촉이 잦은 지인 중에 코로나19(의심)환자, 자가격리대상자가 있습니까?
+                            </td>
+                            <td>
+                                <input type="radio" name="q2" value="1">
+                            </td>
+                            <td>
+                                <input type="radio" name="q2" value="0">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                3
+                            </td>
+                            <td>
+                                현재 발열로 인하여 해열제 성분의 약을 복용하였습니까?
+                            </td>
+                            <td>
+                                <input type="radio" name="q3" value="1">
+                            </td>
+                            <td>
+                                <input type="radio" name="q3" value="0">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p>개인정보보호법 등 관련 법규에 의거 상기 본인은 위 사항에 대한 개인정보 수집 및 활용에 동의하며, 감염병 예방 및 관리에 관한 법 제35조에 의거하여 고의적으로 사실을 누락, 은폐할 경우
+                관련법령에 의거, 과태료가 부과될 수 있습니다.</p>
+            <p style="margin-top: 20px; text-align: right;">작성일 : <span id="today"></span></p>
+
+            <div class="d-flex justify-content-end" style="margin-top: 20px;">
+
+                <p>이름 : <span id="name"></span></p>
+                <div>
+                    <div class="subpic">
+                        <img id="signImg">
+                        <span class="imtext" type="button" data-bs-toggle="modal" data-bs-target="#signModal">(서명)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="qrDiv">
+            <input type="text" id="qrlink">
+            <br>
+            <br>
+            <canvas id="qrcode"></canvas>
+        </div>
+    </div>
+
+    
+</body>
+
+<script>
+
+    window.addEventListener('load', () => {
+        let today = new Date();
+
+        let year = today.getFullYear();
+        let month = today.getMonth() + 1;
+        let day = today.getDate();
+        let todayStr = year + "년 " + month + "월 " + day + "일";
+
+        console.log(todayStr);
+
+        document.getElementById("today").innerText = todayStr;
+
+        document.getElementById("name").innerText = "홍길동";
+    });
+
+    var qrlink = document.getElementById('qrlink');
+    qrlink.addEventListener('keyup', (e) => {
+        var qrcode = new QRious({
+            element: document.getElementById('qrcode'),
+            value: qrlink.value,
+            size: 200,
+            level: 'H',
+            background: '#DDDDDD',
+            backgroundAlpha: 0.5,
+        });
+    });
+
+    var canvas = document.getElementById('signature-pad');
+
+    function resizeCanvas() {
+        // const ratio =  Math.max(window.devicePixelRatio || 1, 1);
+        // canvas.getContext("2d").scale(ratio, ratio);
+    }
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+
+    var signaturePad = new SignaturePad(canvas, {
+        backgroundColor: 'rgba(255, 255, 255, 0.1)' // necessary for saving image as JPEG; can be removed is only saving as PNG or SVG
+    });
+
+    document.getElementById('save').addEventListener('click', function () {
+
+        let sign_div = document.getElementById('sign');
+
+        sign_div.innerHTML = '';
+
+        var data = signaturePad.toDataURL('image/jpg');
+
+        var img = document.getElementById('signImg');
+        img.src = data;
+
+        swal({text:"서명이 완료되었습니다.", button:true});
+    });
+
+    document.getElementById('clear').addEventListener('click', function () {
+        signaturePad.clear();
+    });
+
+</script>
+
+</html>
