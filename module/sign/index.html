@@ -176,7 +176,7 @@
                                 1
                             </td>
                             <td>
-                                현재 자가격리대상입니까?
+                                최근 2주 이내, 코로나 바이러스 감염 확진자 또는 밀접접촉자를 만난 적이 있다.
                             </td>
                             <td>
                                 <input type="radio" name="q1" value="1">
@@ -190,7 +190,7 @@
                                 2
                             </td>
                             <td>
-                                현재 가족 혹은 일상적 접촉이 잦은 지인 중에 코로나19(의심)환자, 자가격리대상자가 있습니까?
+                                최근 2주 이내, 감염 확진자가 발생한 지역(국내 및 해외 포함) 및 기타 행사에 방문한 적이 있다.
                             </td>
                             <td>
                                 <input type="radio" name="q2" value="1">
@@ -204,7 +204,7 @@
                                 3
                             </td>
                             <td>
-                                현재 발열로 인하여 해열제 성분의 약을 복용하였습니까?
+                                질병관리본부로부터 자가격리 대상자라는 통보받은 경험이 있다.
                             </td>
                             <td>
                                 <input type="radio" name="q3" value="1">
@@ -213,11 +213,98 @@
                                 <input type="radio" name="q3" value="0">
                             </td>
                         </tr>
+                        <tr>
+                            <td>
+                                4
+                            </td>
+                            <td>
+                                질병관리본부로부터 능동감시 대상자로 통보받은 경험이 있다.
+                            </td>
+                            <td>
+                                <input type="radio" name="q4" value="1">
+                            </td>
+                            <td>
+                                <input type="radio" name="q4" value="0">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                5
+                            </td>
+                            <td>
+                                최근 2주 이내, 발열(37.5℃ 이상) 또는 기침, 인후통, 근육통(몸살감기), 호흡관란과 같은 증상이 있었다.
+                            </td>
+                            <td>
+                                <input type="radio" name="q5" value="1">
+                            </td>
+                            <td>
+                                <input type="radio" name="q5" value="0">
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
-            <p>개인정보보호법 등 관련 법규에 의거 상기 본인은 위 사항에 대한 개인정보 수집 및 활용에 동의하며, 감염병 예방 및 관리에 관한 법 제35조에 의거하여 고의적으로 사실을 누락, 은폐할 경우
-                관련법령에 의거, 과태료가 부과될 수 있습니다.</p>
+            <div>
+                <p>개인정보 수집 · 이용 동의서</p>
+                <table class="table table-bordered border-dark">
+                    <tbody>
+                        <tr>
+                            <td>
+                                수집·이용 목적
+                            </td>
+                            <td>
+                                ■ 『코로나19』확산 방지
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                수집·이용할 항목
+                            </td>
+                            <td>
+                                ■ 민감정보
+                                    ▶ 문진 내용의 건강 정보                        
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                보유·이용기간
+                            </td>
+                            <td>
+                                위 개인정보는 동의일로부터 최대 30일간 보유 · 이용됩니다.
+                                (출입 통제 시 당일 파기, 그 외의 경우 30일간 보유 후 파기)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                동의를 거부할 권리 및 동의를 거부할 경우의 불이익
+                            </td>
+                            <td>
+                                이용자는 언제든지 수집·이용에 대한 동의를 거부할 수 있으며, 이 경우 코로나19 확산 방지 서비스를 이용할 수 없습니다.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                개인정보 수집·이용 동의 여부
+                            </td>
+                            <td>
+                                귀 기관이 위와 같이 본인의 개인정보를 수집 및 이용하는 것에 동의합니다.
+                                ( 동의하지 않음 <input type="radio" name="personal" value="0"> 동의함 <input type="radio" name="personal" value="1"> )
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                민감정보 수집·이용 동의 여부
+                            </td>
+                            <td>
+                                귀 기관이 위와 같이 민감정보를 수집 및 이용하는 것에 동의합니다.
+                                ( 동의하지 않음 <input type="radio" name="sensitive" value="0"> 동의함 <input type="radio" name="sensitive" value="1"> )
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p> * 민감정보는 개인정보보호법 제23조에 규정된 건강정보를 의미합니다.</p>
+            </div>
             <p style="margin-top: 20px; text-align: right;">작성일 : <span id="today"></span></p>
 
             <div class="d-flex justify-content-end" style="margin-top: 20px;">
@@ -297,7 +384,7 @@
         var img = document.getElementById('signImg');
         img.src = data;
 
-        swal({text:"서명이 완료되었습니다.", button:true});
+        swal({text:"서명이 완료되었습니다.", button:"확인"});
     });
 
     document.getElementById('clear').addEventListener('click', function () {
