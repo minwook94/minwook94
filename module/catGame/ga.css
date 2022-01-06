@@ -1,0 +1,174 @@
+#content-item{
+    position: relative;
+  }
+  .top{
+    text-align: center;
+  }
+  .leftTd{
+    padding-left: 20px;
+    width: 504px;
+    position:relative;
+  }
+  .ga-mainbox{
+    padding:10px;
+  }
+  .ga-mainbox #info_table p{
+      text-indent: -0.85em;
+      margin-left: 20px;
+      text-align: left !important;
+      margin-bottom: 40px;
+  }
+  .ga-Btn{
+    cursor:pointer;
+    width:95%;
+    height:50px;
+    align-self: flex-end;
+    position: absolute;
+    left:2.5%;
+    bottom:30px;
+    border: none;
+    font-weight: bold;
+    border-radius: 5px;
+    box-shadow: 2px 2px 2px rgba(0, 161, 101, .5);
+    background: #1BBF83;  
+    color:#fff;
+    font-size: 18px;
+  }
+  .ga-direction-Btn{
+    cursor:pointer;
+    width:90px;
+    height:50px;
+    font-weight: bold;
+    border-radius: 5px;
+    box-shadow: 2px 2px 2px rgba(0, 161, 101, .5);
+    font-size: 13pt;
+    border:3px solid #1BBF83;
+    background-color: #fff; 
+    color: #1BBF83;
+  }
+  .ga-direction-Btn:hover{
+    border: none;
+    background-color: #1BBF83;  
+    color:#fff;
+  }
+  .ga-direction-click-Btn{
+    cursor:pointer;
+    width:90px;
+    height:50px;
+    font-weight: bold;
+    border-radius: 5px;
+    box-shadow: 2px 2px 2px rgba(0, 161, 101, .5);
+    font-size: 18px;
+    border: none;
+    background-color: #1BBF83;  
+    color:#fff;
+  }
+  .ga-Btn:hover{
+    border:3px solid #1BBF83;
+    background-color: #fff; 
+    color: #1BBF83;
+  }
+  .ga-mainbox {
+    height: 340px;
+    overflow : auto;
+  }
+  .ga-mainbox > .cat-box{
+    margin-top:20px;
+    display:flex;
+    width:100%;
+    justify-content: center;
+    align-items: center;
+  }
+  .ga-mainbox .subcatbox{
+      display:flex;
+      justify-content: center;
+      align-items: center;
+      border: #000 solid 3px;
+      border-top: 10px solid black;
+      border-bottom: 10px solid black;
+      border-radius: 20px;
+      margin:10px;
+  }
+  .ga-mainbox .subcatbox > div{
+    position:relative;
+    width:200px;
+    height:200px;
+  }
+  .ga-mainbox .subcatbox #lbox-lcat-img img{
+    margin-left: 50px;
+  }
+  .ga-mainbox .subcatbox #lbox-rcat-img img{
+    margin-left: 10px;  
+  }
+  .ga-mainbox .subcatbox #rbox-lcat-img img{
+    margin-left: 50px;
+  }
+  .ga-mainbox .subcatbox #rbox-rcat-img img{
+    margin-left: 10px;  
+  }
+  .ga-mainbox .subcatbox img{
+      width: 70%;
+      height: 70%;
+      margin-top: 30px;
+  }
+  #ex_result img{
+      width: 75%;
+      height: 50%;
+  }
+  .btnTable{
+    margin: auto;
+    box-sizing: border-box;
+  }
+  #info_table .btnTable{
+    position: relative;
+    bottom: 120px;
+  }
+  #info_table img{
+    width:450px;
+    float:right;
+  }
+  .btnImg{
+    padding-top:10px;
+    padding-bottom:10px;
+    position: relative;
+    right:134px;
+  }
+  .ga-mainbox p{
+    font-size: 12pt;
+  }
+  #commit-text p{
+    margin-top: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+  }
+  .bottom_text p{
+    position: absolute;
+    bottom:0;
+    margin:0;
+    width: 100%;
+    text-align: center;
+  }
+  #countdown p{
+    text-align: center;
+    margin-top:132px;
+    margin-bottom:0px;
+    font-size: 137px;
+  }
+  #input-result {
+    position: absolute;
+    left: 470px;
+    top: 132px;
+  }
+  #input-result p{
+    margin: 0;
+    font-size:137px;
+    color:red;
+  }
+  .infoImg{
+    width: 450px;
+    border: 1px solid black;
+    margin-left: 40px;
+    margin-bottom: 30px;
+    margin-top: 20px;
+  }
