@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+
+  wmw_node_webrtc:
+    build: './node'
+    container_name: 'wmw_node_webrtc'
+    ports:
+      - '55420:55420'
+    volumes:
+      - './node_modules:/node_modules'
+      - './src:/src'
+      - './config:/config'
+      - './logs:/logs'
+
+networks:
+  wmw_node_webrtc_network:
+    name: wmw_node_webrtc_network
