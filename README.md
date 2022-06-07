@@ -6,6 +6,11 @@
 github은 아직 페이지 구성 및 테스트 페이지 출력 구성중에 있습니다.
 
 
-## webRTC TEST
+## webRTC TEST Example
 
 <img src="./module/webRTC/capture_page/chatting.PNG">
+<br>
+<img src="./module/webRTC/capture_page/first.PNG">
+<br>
+<img src="./module/webRTC/capture_page/second.PNG">
+<br>
