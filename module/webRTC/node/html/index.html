@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WebRTC</title>
+
+    <style type="text/css">
+      body {
+        margin: 0;
+        font-size: 20px;
+      }
+
+      .centered {
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      .video-position {
+        position: absolute;
+        left: 0;
+        bottom: 1%;
+        width: 26%;
+        height: 30%;
+      }
+
+      #video-chat-container {
+        background-color: black;
+      }
+
+      #local-video {
+        width: 100%;
+        height: 100%;
+      
+      }
+      #remote-video {
+        height: 100%;
+        width: 100%;
+      }
+      #text-button{
+        margin-top: 20px;
+        text-align: center;
+      }
+      #test-container{
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+    </style>
+  </head>
+
+  <body>
+    <div id="room-selection-container" class="centered">
+      <h1>WebRTC 비디오 테스트</h1>
+
+      <label>제공받은 코드를 입력하고 버튼을 클릭해주세요.</label>
+      <div id="text-button">
+      <input id="room-input" type="text" />
+        <button id="connect-button">접속</button>
+      </div>
+    </div>
+
+    <div id="test-container" style="display: none;">
+      <p>안녕하세요.</p>
+    </div>
+    <div id="video-chat-container" class="video-position" style="display: none">
+      <video id="local-video" autoplay="autoplay"></video>
+      <!-- <video id="remote-video" autoplay="autoplay"></video> -->
+    </div>
+
+    <script src="./socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="./js/client.js"></script>
+  </body>
+</html>
