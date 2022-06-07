@@ -1,5 +1,4 @@
-- 👋 Hi, I’m minwook woo
-- 👀 I’m interested in Web Programming
-- 🌱 I’m currently learning HTML, CSS, JAVASCRIPT, PHP
-- 💞️ I’m looking to collaborate on ...
-- 📫 How to reach me minwook_94@naver.com or Phone number = 010-7929-9275
+- 👋 안녕하세요. 저는 우민욱입니다.
+- 👀 저는 웹 프로그래밍에 흥미가 있습니다.
+- 🌱 HTML, CSS, JAVASCRIPT, PHP를 통해 개발을 공부하고 페이지를 개발하였습니다.
+- 📫 제 이메일은 minwook_94@naver.com이고 전화번호는 010-7929-9275입니다.
