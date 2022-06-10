@@ -1,0 +1,180 @@
+<?
+
+$q_title = $question_title->q_name;
+$a_title = $agree_title->a_name;
+// echo '<pre>';
+// print_r($question_itmes);
+// print_r($agree_itmes);
+// print_r($answer_data);
+
+// echo $q_title;
+// echo "<br>"; 
+// echo $a_title;
+// echo '</pre>';
+?>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <title>문진표/동의서 결과</title>
+    <style>
+        .answer-box{
+            width:990px;
+            height:1440px;
+            /* border:1px solid; */
+            margin: auto;
+            padding:15px;
+        }
+        .answer-box .title {
+            font-size:22pt;
+        }
+        /* .text-center{
+            text-align:center;
+        } */
+        .agree-sub-desc b{
+            font-size:17px;
+        }
+        .test-date-p{
+            font-size:20px;
+        }
+        .candidate-info-table{
+            font-size:18px;
+        }
+    </style>
+   
+
+</head>
+<body>
+    <button id="create_pdf">
+      pdf 생성
+    </button>
+
+    <div id="mainDiv">
+    <?
+    $q_answer_pool = array('아니오','예');
+    foreach($answer_data as $k => $v){?>
+        <div class="answer-box">
+            <div class="text-center m-3">
+                <b class="title"><?=$q_title?></b>
+            </div>
+            <div>
+                <p>&nbsp;&nbsp;&nbsp;최근 <b>코로나19</b> 확산에 따라 <b>(사)<?=$v['company_name']?></b>에서는 아래와 같이 방문하는 모든 수검자를 대상으로 문진을 시행하며 문진 내용에 따라 출입 통제될 수 있을을 양지하여 주시기 바랍니다. 또한, <u>문진 내용에 거짓으로 응답하여 발생하는 모든 문제는 작성자 본인에게 책임이 있으며 관계 법령에 따라 조치</u>합니다.</p>
+            </div>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th class="text-center">항목</th>
+                        <th class="text-center" width="15%">응답</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?
+                    $candidate_answer = $v['answer']->question;
+                    foreach($question_itmes as $q_item_k => $q_item_v){?>
+                        <tr>
+                            <td class="p-3"><?=$q_item_v->q_content?></td>
+                            <?
+                            $candidate_answer[($q_item_v->q_order-1)] ? $q_td_class = 'text-danger' : $q_td_class = 'text-primary';
+                            ?>
+                            <td class="text-center align-middle fw-bold <?=$q_td_class?>"><?=$q_answer_pool[$candidate_answer[($q_item_v->q_order-1)]]?></td>
+                        </tr>
+                    <?}?>
+                </tbody>
+            </table>
+
+            <hr class="m-5">
+
+            <div class="text-center m-3">
+                <b class="title"><?=$a_title?></b>
+            </div>
+            <table class="table table-bordered">
+                <tbody>
+                    <?
+                    foreach($agree_itmes as $a_item_k => $a_item_v){?>
+                        <tr>
+                            <?
+                            $user_agree_elem = "";
+                            $td_border = "";
+                            if($a_item_v->a_agree_type == 'Y'){
+                                $user_agree_elem = "<br><div class='text-end text-primary fw-bold'>동의함</div>";
+                                $td_border = "border border-dark";
+                            }
+                            ?>
+                            <td class="p-3 <?=$td_border?>"><?=$a_item_v->a_title?></td>
+                            <?
+                            ?>
+                            <td class="<?=$td_border?>">
+                                <?=$a_item_v->a_content?>
+                                <?=$user_agree_elem?>
+                            </td>
+                        </tr>
+                    <?}?>
+                </tbody>
+            </table>
+            <div>
+                <p class="agree-sub-desc"><small>* <b>민감정보</b>는 개인정보보호법 제 23조에 규정된 <b>건강정보</b>를 의미합니다</small></p>
+            </div>
+            <div class="text-center m-5">
+                <?
+                $test_date = explode('-',$v['test_date']);
+                ?>
+                <p class="test-date-p"><?=$test_date[0].'년 '.$test_date[1].'월 '.$test_date[2].'일'?></p>
+            </div>
+            <!-- <div class="row"> -->
+            <div class="d-flex justify-content-between align-items-end">
+                <!-- <div class="col"></div> -->
+                <!-- <div class="col"> -->
+                    <div>
+                        <h5 class="fw-bold mt-1"><?=$v['company_name']?> 사장 <small>귀하</small></h5>
+                    </div>
+                    <table class="fw-bold candidate-info-table">
+                        <tbody>
+                            <tr><td>지원회사 : </td><td colspan="2"><?=$v['company_name']?></td></tr>
+                            <tr><td>수험번호 : </td><td colspan="2"><?=$v['c_num']?></td></tr>
+                            <tr><td>성&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;명 : </td><td colspan="2"><?=$v['c_name']?></td>
+                                    <!-- <td class="fw-normal">
+                                    </td> -->
+                            </tr>
+                            <tr>
+                                <td class="fw-normal text-end" colspan="3">
+                                    <div class="position-relative">
+                                        (서명)
+                                        <img class="position-absolute" src="<?=$v['sign_img']?>" style="top:-15px; right:-30px; width:150px;">
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                <!-- </div> -->
+            </div>
+
+        </div>
+    <?}?>
+    </div>
+
+    
+</body>
+<script type = "text/javascript" src = "https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+    <script type = "text/javascript" src = "https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script type = "text/javascript" src = "https://code.jquery.com/jquery-latest.min.js"></script>
+<script>
+        // $(document).ready(function(){
+            $("#create_pdf").click(function(){
+                console.log($("#mainDiv"));
+                html2canvas($("#mainDiv"), {
+                    // onrendered: function(canvas) {
+                    //     var imgData = canvas.toDataURL('image/png');
+
+                    //     return false;
+                    //     var doc = new jsPDF('p', 'mm', 'a4');
+                    //     doc.addImage(imgData, 'JPEG', 0, 0);
+                    //     doc.save('test.pdf');
+                    // }
+                });
+            });
+        // });
+    </script>
+</html>

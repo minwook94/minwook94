@@ -1,0 +1,154 @@
+body {
+    margin: 0 auto;
+    width: 90%;
+    background: rgb(245, 245, 245);
+}
+p {
+    margin: 0;
+}
+#qrDiv {
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    margin-top: 20%;
+}
+.first_div select{
+    margin:0 auto;
+    text-align-last: center;
+    text-align: center;
+    -ms-text-align-last: center;
+    -moz-text-align-last: center;
+    margin-top: 5pt;
+    width: 80%;
+}
+.second_div div{
+    margin-bottom: 10pt;
+}
+.second_div div :first-child{
+    font-weight: bold;
+    font-size: 1.2em;   
+    margin-bottom: 5pt; 
+}
+
+#canvasDiv {
+    text-align: center;
+    width: 100%;
+    height: 100%;
+}
+
+#qrlink {
+    margin-top: 20px;
+    font-size: 15pt;
+    font-weight: bolder;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.wrapper {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.signature-pad {
+    border: 1px solid black;
+    background-color: white;
+}
+
+#surveyPage {
+    text-align: center;
+    margin: 0 auto;
+    margin-top: 50px;
+}
+
+.signBtn {
+    background-color: #FFF;
+    border: 1px solid #000;
+    border-radius: 5px;
+    color: #000;
+    width: 100px;
+    height: 30px;
+}
+.signBtn:hover {
+    background-color: rgb(114, 72, 72);
+    color: #FFF;
+}
+
+.subpic {
+    position: relative;
+    width: 100px;
+    height: 30px;
+}
+
+.imtext {
+    position: absolute;
+    top: -5px;
+    left: 30px;
+    z-index: 1;
+    font-size: 15pt;
+    font-weight: bold;
+    opacity: 0.3;
+}
+
+#signImg {
+    position: absolute;
+    top: -55%;
+    left: 0;
+    width: 75pt;
+}
+.tableDiv {
+    vertical-align: middle;
+}
+
+.tableDiv thead {
+    vertical-align: middle;
+}
+.tableTbody{
+    font-size: 10pt;
+    text-align:left;
+}
+#addBtn{
+    margin-top: 20pt;
+    float: right;
+    border: 1px solid skyblue;
+    background-color: rgba(0,0,0,0);
+    color: skyblue;
+    padding: 5px;
+}
+#addBtn :focus, #addBtn :active{
+    border: 1px solid rgba(0,0,0,0.5) !important;
+    background-color: rgba(0,0,0,0.5) !important;
+    color: white !important;
+
+}
+.table-style td:first-child {
+    border-right: 5px solid #fff;
+    border-collapse: collapse;
+    padding: 5px;
+    text-align:left !important;
+}
+.agree_text{
+    font-size: 12pt;
+    font-weight: bold;
+    color: red;
+    text-align: center;
+}
+#loading{
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    position: fixed;
+    display: block;
+    opacity: 0.8;
+    background-color: #fff;
+    z-index: 99;
+    text-align: center;
+}
+.loading-image{
+    position: absolute;
+    top: 50%;
+    left:45%;
+    z-index: 100;
+}
