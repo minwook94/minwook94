@@ -324,32 +324,32 @@ class Ga {
             var sec = s % 60;
             return ("0" + min).slice(-2) + ':' + ("0" + sec).slice(-2);
         }
-        this._timer = setInterval(function () {
-            if (timeleft <= 0) {
-                ga.start_count();
-            } else {
-                document.getElementById("countdown-first").innerText = "검사4 시작까지 " + convertSeconds(timeleft) + " 남았습니다.";
-            }
-            timeleft--;
-        }, 1000);
+        // this._timer = setInterval(function () {
+        //     if (timeleft <= 0) {
+        //         ga.start_count();
+        //     } else {
+        //         document.getElementById("countdown-first").innerText = "검사 시작까지 " + convertSeconds(timeleft) + " 남았습니다.";
+        //     }
+        //     timeleft--;
+        // }, 1000);
 
         var div1 = this.help("div", { innerHTML: "<h2 style=color:#0070C0;>고양이를 찾아라</h2>" });
         div1.classList.add('top');
         this._body.appendChild(div1);
 
-        var table = this.help('table', {id:"info_table"});
+        var table = this.help('table', { id: "info_table" });
         var tbody = this.help('tbody');
-        
+
         ga.keyboard_set(ga._user_id, this._btnLocation);
-        
+
         var tr = this.help('tr');
         var td_1 = this.help('td', {
             innerHTML: `<p style="font-weight:bold;">1.이 검사에서는 하얀색 고양이의 표정과 노란색 고양이의 수염 유무를 빠르고 정확하게 판별해야 합니다.</p>
             <p style=font-weight:bold;>
                2.<span style="color:blue;">키보드</span>를 이용해 응답하며, 조작법은 오른쪽 그림을 참고하십시오.<br>해당 키를 지금 눌러보십시오. 오른쪽 키보드 그림의 색이 변하면 정상 작동하는 것입니다.</p>
             <p>3.화면에 좌우로 두 개의 박스가 제시됩니다. 두 개의 박스 중 한 곳에 하얀색 고양이와 노란색 고양이 얼굴이 동시에 나타납니다.</p>
-            <p>4.고양이들의 얼굴이 왼쪽 박스에 제시되는 경우, 하얀색 고양이의 표정을 `+ this._direction_text_1 +`로 판별 하십시오. 이 때 노란색 고양이의 수염 유무는 판별하지 않습니다(키보드 조작법은 검사 진행 중 화면 하단에서도 확인 가능).</p><br><p>※ 오른쪽 검사 화면 예시에서는 <span style=color:blue;>`+this._answer_text_1+`</span>가 정답입니다.</p>
-            <p>5.고양이들의 얼굴이 오른쪽 박스에 제시되는 경우, 노란색 고양이의 수염 유무를 `+ this._direction_text_2 +`로 판별하십시오. 이 때 하얀색 고양이의 표정은 판별하지 않습니다(키보드 조작법은 게임 진행 중 화면 하단에서도 확인 가능).</p><br><p>※ 오른쪽 검사 화면 예시에서는 <span style=color:blue;>`+this._answer_text_2+`</span>가 정답입니다.</p>
+            <p>4.고양이들의 얼굴이 왼쪽 박스에 제시되는 경우, 하얀색 고양이의 표정을 `+ this._direction_text_1 + `로 판별 하십시오. 이 때 노란색 고양이의 수염 유무는 판별하지 않습니다(키보드 조작법은 검사 진행 중 화면 하단에서도 확인 가능).</p><br><p>※ 오른쪽 검사 화면 예시에서는 <span style=color:blue;>` + this._answer_text_1 + `</span>가 정답입니다.</p>
+            <p>5.고양이들의 얼굴이 오른쪽 박스에 제시되는 경우, 노란색 고양이의 수염 유무를 `+ this._direction_text_2 + `로 판별하십시오. 이 때 하얀색 고양이의 표정은 판별하지 않습니다(키보드 조작법은 게임 진행 중 화면 하단에서도 확인 가능).</p><br><p>※ 오른쪽 검사 화면 예시에서는 <span style=color:blue;>` + this._answer_text_2 + `</span>가 정답입니다.</p>
             <p>6.화면마다 제한시간이 있으며, 제한시간 내 응답을 하지 못할 경우 오답 처리됩니다. 따라서 고양이들이 제시되면 바로 응답하십시오.</p>
             <p style=font-weight:bold;>7.연습검사를 한 뒤 실전검사가 이어지며 연습검사의 응답은 결과에 반영되지 않습니다.</p>
             `
@@ -359,7 +359,8 @@ class Ga {
         var td_2 = this.help('td');
         td_2.appendChild(this._btnLocation);
 
-        var imgs = this.help('div', {innerHTML: `<img class="infoImg" src=./img/directionImg/direction_`+ this._user_id + `_first.jpg></img>
+        var imgs = this.help('div', {
+            innerHTML: `<img class="infoImg" src=./img/directionImg/direction_` + this._user_id + `_first.jpg></img>
         <img class="infoImg" src=./img/directionImg/direction_`+ this._user_id + `_second.jpg></img>
         `});
         td_2.appendChild(this._btnLocation, imgs);
@@ -370,13 +371,13 @@ class Ga {
         table.appendChild(tbody);
         this._mainBox.appendChild(table);
 
-        var nextBtn = this.help("button", { id: 'countdown-first', innerText: '검사4 시작까지 ' + convertSeconds(timeleft + 1) + ' 남았습니다.' });
+        var nextBtn = this.help("button", { id: 'countdown-first', innerText: '검사 시작' });
         nextBtn.addEventListener("click", () => {
             ga.start_count();
         });
         this._mainBox.appendChild(nextBtn);
 
-        var bottom_text = this.help('div', { innerHTML: '<p style="color:red">※ 검사4에서는 규정노트와 규정필기도구를 사용할 수 없습니다. 사용 시 부정행위로 간주되어 이에 상응한 불이익을 받게 됩니다.</p>' });
+        var bottom_text = this.help('div', { innerHTML: '<p style="color:red">※ 검사에서는 규정노트와 규정필기도구를 사용할 수 없습니다. 사용 시 부정행위로 간주되어 이에 상응한 불이익을 받게 됩니다.</p>' });
         bottom_text.classList.add('bottom_text');
         this._mainBox.appendChild(bottom_text);
 
@@ -506,14 +507,6 @@ class Ga {
             var sec = s % 60;
             return ("0" + min).slice(-2) + ':' + ("0" + sec).slice(-2);
         }
-        this._timer = setInterval(function () {
-            if (timeleft <= 0) {
-                ga.start_count();
-            } else {
-                document.getElementById("countdown-real").innerText = "실전 게임 시작까지 " + convertSeconds(timeleft) + " 남았습니다.";
-            }
-            timeleft--;
-        }, 1000);
 
         var div1 = this.help('div', {
             innerHTML: "<p>연습검사가 종료되었습니다.</p><p style=color:blue;>연습검사와 달리 실전검사에서는 응답에 대한 피드백을 제공하지 않습니다.</p><br>"
@@ -524,7 +517,7 @@ class Ga {
         div1.style.marginTop = '50px';
         this._mainBox.appendChild(div1);
 
-        var nextBtn = this.help("button", { id: 'countdown-real', innerText: '실전 게임 시작까지 ' + convertSeconds(timeleft + 1) + ' 남았습니다.' });
+        var nextBtn = this.help("button", { id: 'countdown-real', innerText: '실전 게임 시작' });
         nextBtn.addEventListener("click", () => {
             this._game_step = 0;
             ga.start_count(true);
@@ -624,31 +617,15 @@ class Ga {
         console.log(this._answer);
         console.log(this._rt_data);
 
-        var timeleft = 599;
-
-        function convertSeconds(s) {
-            var min = Math.floor(s / 60);
-            var sec = s % 60;
-            return ("0" + min).slice(-2) + ':' + ("0" + sec).slice(-2);
-        }
-        this._timer = setInterval(function () {
-            if (timeleft <= 0) {
-                ga.tutorial();
-            } else {
-                document.getElementById("countdown-last").innerText = "시험5 시작까지 " + convertSeconds(timeleft) + " 남았습니다.";
-                timeleft--;
+        var score = 0;
+        for (var i = 0; i < 64; i++) {
+            if (this._answer[i] == 'O') {
+                score++;
             }
-        }, 1000);
+        }
 
-        var div = this.help('div', { id: "commit-text", innerHTML: "<p>검사4가 종료되었습니다.</p><br><p>아래에 안내된 시간 동안 이 페이지에서 잠시 기다려주십시오.</p><p>곧 검사5가 시작됩니다.</p>" });
+        var div = this.help('div', { id: "commit-text", innerHTML: "<p>검사가 종료되었습니다.</p> 점수 : " + score + "점" });
         this._mainBox.appendChild(div);
-
-        var nextBtn = this.help("button", { id: "countdown-last", innerText: "시험5 시작까지 " + convertSeconds(timeleft + 1) + " 남았습니다." });
-        nextBtn.addEventListener("click", () => {
-            // ga.tutorial();
-            alert('시험 종료');
-        });
-        this._mainBox.appendChild(nextBtn);
     }
 }
 let ga = null;
