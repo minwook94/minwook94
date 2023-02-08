@@ -1,5 +1,10 @@
 ## webRTC TEST Example
 
+개발 환경 
+- Node.js를 통한 개발
+- Centos 7
+
+
 1. 접속을 위한 페이지입니다.
 <img src="./capture_page/chatting.PNG">
 <br>
