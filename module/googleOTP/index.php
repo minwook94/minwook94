@@ -11,7 +11,7 @@ if(!isset($_SESSION['auth_secret'])) {
     $_SESSION['auth_secret'] = $secret;
 }
 
-$QR = $ga->getQR('테스트', $_SESSION['auth_secret']);
+$QR = $ga->getQR('한국행동과학연구소', $_SESSION['auth_secret']);
 ?>
 
 <!DOCTYPE html>
@@ -62,7 +62,9 @@ $QR = $ga->getQR('테스트', $_SESSION['auth_secret']);
                     if(httpRequest.responseText === '200') {
                         alert('인증코드가 일치합니다.');
                     }else{
+
                         alert('인증코드가 일치하지 않습니다.');
+                        return false;
                     }
                 }else {
                     alert("실패");

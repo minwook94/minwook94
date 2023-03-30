@@ -60,21 +60,6 @@ class Jwt_lib
         echo "<br>";
         print_r('서명 : '.$jwt_signature_decoded);
 
-
-
-        // 페이로드 - 전달할 데이터
-        // $payload = json_encode($data);
-
-
-        // $jwt_data = base64_encode($header . '.' . $payload . '.' . $signature);
-
-        // $rsa = new Rsa_lib();
-
-        // $rsa_data = $rsa->rsa_encrypt('test');
-
-        // $encrypted_signature = $rsa->rsa_encrypt('test', $rsa_data['public_key']);
-
-        // return base64_encode($header . '.' . $payload . '.' . $signature);
     }
 
     function base64UrlEncode($data)
