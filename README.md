@@ -34,4 +34,4 @@
 - 여러 계열사와의 협업 및 소통 진행
 - 50여개가 사용하는 시스템의 유지보수 진행
 - Linux server & apache 환경 서버 개발
-- Dokcer DevOps 사용 경
+- Dokcer DevOps 사용 경험
