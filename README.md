@@ -20,8 +20,9 @@
 - 여러 인증 과정에서 사용하기 위해 제작되었습니다.
 
 ## notation
-- 간편하게 제가 쓰기 위해서 제작한 진수 변환 사이트입니다.
-- URL : https://minwook94.github.io/minwook94/module/notation/index.html
+- 간편하게 제가 쓰기 위해서 제작한 각종 변환 / 계산 페이지입니다.
+- URL : https://minwook94.github.io/minwook94/module/notation/decimal.html
+-       https://minwook94.github.io/minwook94/module/notation/ratio.html (공사중)
 
 ## webRTC
 - PC 화면을 공유할 수 있는 웹 페이지입니다.
