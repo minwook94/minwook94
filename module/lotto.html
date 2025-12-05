@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로또 번호 생성기</title>
+    <style>
+        * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.container {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    padding: 40px;
+    max-width: 600px;
+    width: 100%;
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.header h1 {
+    color: #333;
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+.header p {
+    color: #666;
+    font-size: 1.1em;
+}
+
+.lotto-section {
+    margin-bottom: 40px;
+}
+
+.lotto-numbers {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 30px;
+    min-height: 80px;
+    align-items: center;
+}
+
+.number-placeholder {
+    color: #999;
+    font-size: 1.2em;
+    font-style: italic;
+}
+
+.lotto-number {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8em;
+    font-weight: bold;
+    color: white;
+    animation: popIn 0.5s ease-out;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes popIn {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.lotto-number:nth-child(1) { background: linear-gradient(135deg, #ff6b6b, #ee5a6f); }
+.lotto-number:nth-child(2) { background: linear-gradient(135deg, #4ecdc4, #44a08d); }
+.lotto-number:nth-child(3) { background: linear-gradient(135deg, #45b7d1, #96c93d); }
+.lotto-number:nth-child(4) { background: linear-gradient(135deg, #f093fb, #f5576c); }
+.lotto-number:nth-child(5) { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+.lotto-number:nth-child(6) { background: linear-gradient(135deg, #43e97b, #38f9d7); }
+
+.generate-btn {
+    width: 100%;
+    padding: 18px;
+    font-size: 1.3em;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.generate-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+}
+
+.generate-btn:active {
+    transform: translateY(0);
+}
+
+.bonus-section {
+    margin-top: 30px;
+    text-align: center;
+    animation: fadeIn 0.5s ease-in;
+}
+
+.bonus-label {
+    color: #666;
+    font-size: 1.1em;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.bonus-number {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2em;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(135deg, #f093fb, #f5576c);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    animation: popIn 0.5s ease-out;
+    border: 4px solid #fff;
+}
+
+.history-section {
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 2px solid #eee;
+}
+
+.history-section h2 {
+    color: #333;
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.history-list {
+    max-height: 300px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+}
+
+.history-item {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.history-numbers {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.history-number {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1em;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+.history-bonus {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1em;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(135deg, #f093fb, #f5576c);
+    margin-left: 8px;
+}
+
+.history-time {
+    color: #999;
+    font-size: 0.9em;
+}
+
+.clear-btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 1em;
+    color: #666;
+    background: #f0f0f0;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.clear-btn:hover {
+    background: #e0e0e0;
+}
+
+/* 스크롤바 스타일링 */
+.history-list::-webkit-scrollbar {
+    width: 8px;
+}
+
+.history-list::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.history-list::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+
+.history-list::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 600px) {
+    .container {
+        padding: 20px;
+    }
+    
+    .header h1 {
+        font-size: 2em;
+    }
+    
+    .lotto-number {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5em;
+    }
+    
+    .bonus-number {
+        width: 70px;
+        height: 70px;
+        font-size: 1.8em;
+    }
+}
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎱 로또 번호 생성기</h1>
+            <p>1부터 45까지의 숫자 중 6개를 자동으로 선택합니다</p>
+        </div>
+        
+        <div class="lotto-section">
+            <div class="lotto-numbers" id="lottoNumbers">
+                <div class="number-placeholder">번호를 생성해주세요</div>
+            </div>
+            
+            <button class="generate-btn" id="generateBtn">
+                번호 생성하기
+            </button>
+            
+            <div class="bonus-section" id="bonusSection" style="display: none;">
+                <p class="bonus-label">보너스 번호</p>
+                <div class="bonus-number" id="bonusNumber"></div>
+            </div>
+        </div>
+        
+        <div class="history-section">
+            <h2>생성 기록</h2>
+            <div class="history-list" id="historyList"></div>
+            <button class="clear-btn" id="clearBtn">기록 지우기</button>
+        </div>
+    </div>
+    
+    <script>
+        // 로또 번호 생성 함수
+function generateLottoNumbers() {
+    const numbers = [];
+    
+    // 1부터 45까지의 숫자 중 중복 없이 6개 선택
+    while (numbers.length < 6) {
+        const num = Math.floor(Math.random() * 45) + 1;
+        if (!numbers.includes(num)) {
+            numbers.push(num);
+        }
+    }
+    
+    // 오름차순 정렬
+    numbers.sort((a, b) => a - b);
+    
+    return numbers;
+}
+
+// 보너스 번호 생성 함수
+function generateBonusNumber(excludeNumbers) {
+    let bonusNumber;
+    do {
+        bonusNumber = Math.floor(Math.random() * 45) + 1;
+    } while (excludeNumbers.includes(bonusNumber));
+    
+    return bonusNumber;
+}
+
+// 번호를 화면에 표시
+function displayNumbers(numbers, bonusNumber) {
+    const lottoNumbersDiv = document.getElementById('lottoNumbers');
+    const bonusSection = document.getElementById('bonusSection');
+    const bonusNumberDiv = document.getElementById('bonusNumber');
+    
+    // 기존 내용 제거
+    lottoNumbersDiv.innerHTML = '';
+    
+    // 번호 표시
+    numbers.forEach((num, index) => {
+        const numberDiv = document.createElement('div');
+        numberDiv.className = 'lotto-number';
+        numberDiv.textContent = num;
+        numberDiv.style.animationDelay = `${index * 0.1}s`;
+        lottoNumbersDiv.appendChild(numberDiv);
+    });
+    
+    // 보너스 번호 표시
+    if (bonusNumber) {
+        bonusNumberDiv.textContent = bonusNumber;
+        bonusSection.style.display = 'block';
+    }
+}
+
+// 생성 기록에 추가
+function addToHistory(numbers, bonusNumber) {
+    const historyList = document.getElementById('historyList');
+    const historyItem = document.createElement('div');
+    historyItem.className = 'history-item';
+    
+    const numbersDiv = document.createElement('div');
+    numbersDiv.className = 'history-numbers';
+    
+    numbers.forEach(num => {
+        const numDiv = document.createElement('div');
+        numDiv.className = 'history-number';
+        numDiv.textContent = num;
+        numbersDiv.appendChild(numDiv);
+    });
+    
+    if (bonusNumber) {
+        const bonusDiv = document.createElement('div');
+        bonusDiv.className = 'history-bonus';
+        bonusDiv.textContent = bonusNumber;
+        numbersDiv.appendChild(bonusDiv);
+    }
+    
+    const timeDiv = document.createElement('div');
+    timeDiv.className = 'history-time';
+    const now = new Date();
+    timeDiv.textContent = now.toLocaleTimeString('ko-KR');
+    
+    historyItem.appendChild(numbersDiv);
+    historyItem.appendChild(timeDiv);
+    
+    // 최신 기록을 맨 위에 추가
+    historyList.insertBefore(historyItem, historyList.firstChild);
+    
+    // 최대 10개까지만 표시
+    while (historyList.children.length > 10) {
+        historyList.removeChild(historyList.lastChild);
+    }
+}
+
+// 번호 생성 버튼 클릭 이벤트
+document.getElementById('generateBtn').addEventListener('click', () => {
+    const numbers = generateLottoNumbers();
+    const bonusNumber = generateBonusNumber(numbers);
+    
+    displayNumbers(numbers, bonusNumber);
+    addToHistory(numbers, bonusNumber);
+});
+
+// 기록 지우기 버튼 클릭 이벤트
+document.getElementById('clearBtn').addEventListener('click', () => {
+    if (confirm('생성 기록을 모두 지우시겠습니까?')) {
+        document.getElementById('historyList').innerHTML = '';
+    }
+});
+
+// 키보드 이벤트 (스페이스바로도 생성 가능)
+document.addEventListener('keydown', (e) => {
+    if (e.code === 'Space' && e.target === document.body) {
+        e.preventDefault();
+        document.getElementById('generateBtn').click();
+    }
+});
+
+
+    </script>
+</body>
+</html>
+
