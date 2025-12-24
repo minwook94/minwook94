@@ -59,8 +59,14 @@
       border: 1px solid rgba(255,255,255,0.10);
       cursor: grab;
       user-select: none;
+      touch-action: none;
+      transition: transform 0.15s ease, opacity 0.15s ease, background 0.3s ease, border-color 0.3s ease;
     }
     .item:active { cursor: grabbing; }
+    .item:focus {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
     .num {
       width: 28px; height: 28px; border-radius: 10px;
       background: rgba(106,166,255,0.18);
@@ -68,10 +74,49 @@
       display:flex; align-items:center; justify-content:center;
       color: var(--accent); font-weight: 700; font-size: 12px;
       flex: 0 0 auto;
+      transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
     }
     .txt { font-size: 14px; line-height: 1.5; color: var(--text); }
-    .item.dragging { opacity: 0.55; transform: scale(0.99); }
+    .item.dragging { opacity: 0.55; transform: scale(0.97); }
     .item.over { outline: 2px solid rgba(106,166,255,0.55); }
+    .item.touch-dragging {
+      opacity: 0.85;
+      transform: scale(1.02);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+      z-index: 100;
+    }
+
+    /* 정답/오답 개별 표시 */
+    .item.correct {
+      background: rgba(58,210,159,0.15);
+      border-color: rgba(58,210,159,0.45);
+    }
+    .item.correct .num {
+      background: rgba(58,210,159,0.25);
+      border-color: rgba(58,210,159,0.55);
+      color: var(--ok);
+    }
+    .item.wrong {
+      background: rgba(255,90,106,0.12);
+      border-color: rgba(255,90,106,0.40);
+    }
+    .item.wrong .num {
+      background: rgba(255,90,106,0.20);
+      border-color: rgba(255,90,106,0.50);
+      color: var(--bad);
+    }
+
+    /* 정답 시 축하 애니메이션 */
+    @keyframes celebrate {
+      0% { transform: scale(1); }
+      25% { transform: scale(1.03); }
+      50% { transform: scale(0.98); }
+      75% { transform: scale(1.01); }
+      100% { transform: scale(1); }
+    }
+    .item.celebrate {
+      animation: celebrate 0.5s ease;
+    }
 
     .btns { display:flex; gap:10px; flex-wrap:wrap; }
     button {
@@ -82,8 +127,13 @@
       color: var(--text);
       border: 1px solid rgba(255,255,255,0.12);
       cursor:pointer;
+      transition: background 0.2s ease;
     }
     button:hover { background: rgba(255,255,255,0.11); }
+    button:focus {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
     button.primary {
       background: rgba(106,166,255,0.18);
       border: 1px solid rgba(106,166,255,0.40);
@@ -116,6 +166,30 @@
       border: 1px solid rgba(255,255,255,0.12);
       background: rgba(255,255,255,0.06);
     }
+
+    /* 키보드 조작 안내 */
+    .a11y-hint {
+      margin-top: 8px;
+      padding: 8px 10px;
+      border-radius: 10px;
+      background: rgba(106,166,255,0.08);
+      border: 1px solid rgba(106,166,255,0.20);
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    /* 스크린 리더 전용 텍스트 */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
   </style>
 </head>
 <body>
@@ -125,23 +199,23 @@
         <h1>맥락 기억: 순서 맞추기</h1>
         <p class="sub">문장(또는 짧은 장면)을 드래그해서 올바른 순서로 배열해보세요. <span class="kbd">정답 확인</span>을 누르면 채점합니다.</p>
       </div>
-      <div class="pill">
+      <div class="pill" aria-live="polite">
         <span>진행</span>
-        <strong id="progressText">1 / 5</strong>
+        <strong id="progressText">1 / 3</strong>
       </div>
     </div>
 
-    <div class="board">
+    <div class="board" role="main">
       <div class="row">
         <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
           <div class="pill">난이도: <strong id="levelText">쉬움</strong></div>
-          <div class="pill">시도: <strong id="triesText">0</strong></div>
+          <div class="pill" aria-live="polite">시도: <strong id="triesText">0</strong></div>
         </div>
-        <div class="btns">
-          <button id="btnShuffle" class="danger" type="button">다시 섞기</button>
-          <button id="btnHint" type="button">힌트</button>
-          <button id="btnCheck" class="primary" type="button">정답 확인</button>
-          <button id="btnNext" type="button" disabled>다음</button>
+        <div class="btns" role="group" aria-label="게임 컨트롤">
+          <button id="btnShuffle" class="danger" type="button" aria-label="문장 다시 섞기">다시 섞기</button>
+          <button id="btnHint" type="button" aria-label="힌트 보기">힌트</button>
+          <button id="btnCheck" class="primary" type="button" aria-label="정답 확인하기">정답 확인</button>
+          <button id="btnNext" type="button" disabled aria-label="다음 문제로 이동">다음</button>
         </div>
       </div>
 
@@ -150,15 +224,19 @@
         <p class="storyHint" id="storyDesc">—</p>
       </div>
 
-      <div class="list" id="list"></div>
+      <div class="list" id="list" role="list" aria-label="순서 맞추기 문장 목록"></div>
 
-      <div class="status" id="status">
+      <div class="a11y-hint">
+        💡 키보드: 카드 선택 후 <span class="kbd">↑</span> <span class="kbd">↓</span> 키로 이동, <span class="kbd">Space</span>로 선택/해제 | 모바일: 길게 눌러 드래그
+      </div>
+
+      <div class="status" id="status" role="status" aria-live="polite">
         문장 카드를 드래그해서 순서를 바꾼 뒤, <strong style="margin-left:6px;">정답 확인</strong>을 눌러주세요.
       </div>
 
       <div class="footer">
         <div>• 접근성/고령층 고려: 큰 버튼, 짧은 문장, 실패 패널티 없음</div>
-        <div>• 운영 아이디어: “오늘의 기사 요약 3문장 순서 맞추기”로 매일 1개 제공</div>
+        <div>• 운영 아이디어: "오늘의 기사 요약 3문장 순서 맞추기"로 매일 1개 제공</div>
       </div>
     </div>
   </div>
@@ -190,28 +268,6 @@
         ]
       },
       {
-        title: "비 오는 날 우산",
-        desc: "원인→행동→결과 흐름을 생각해보세요.",
-        level: "보통",
-        steps: [
-          "밖에 비가 오는지 확인한다.",
-          "우산을 챙기거나 우비를 준비한다.",
-          "밖으로 나가 이동한다.",
-          "젖지 않게 우산을 접고 정리한다."
-        ]
-      },
-      {
-        title: "택배 받기",
-        desc: "중간 단계를 빠뜨리지 않는 게 포인트입니다.",
-        level: "보통",
-        steps: [
-          "택배 도착 알림을 확인한다.",
-          "문 앞(또는 경비실/무인함)으로 간다.",
-          "택배를 찾아 집 안으로 옮긴다.",
-          "포장을 뜯고 내용물을 확인한다."
-        ]
-      },
-      {
         title: "기사 읽고 공유하기(언론사형)",
         desc: "뉴스 소비 흐름을 기반으로 한 시나리오입니다.",
         level: "보통",
@@ -229,7 +285,23 @@
     var hintShown = false;
     var dragSrcEl = null;
 
+    // 터치 드래그용 변수
+    var touchDragEl = null;
+    var touchStartY = 0;
+    var touchOffsetY = 0;
+    var touchClone = null;
+
+    // 키보드 선택 모드
+    var selectedForMove = null;
+
     function $(id){ return document.getElementById(id); }
+
+    // 텍스트 이스케이프 (XSS 방지)
+    function escapeHtml(text) {
+      var div = document.createElement("div");
+      div.textContent = text;
+      return div.innerHTML;
+    }
 
     function shuffleArray(arr) {
       // Fisher-Yates
@@ -249,16 +321,25 @@
       el.innerHTML = msg;
     }
 
+    function clearItemStates() {
+      var list = $("list");
+      var kids = list.children;
+      for (var i = 0; i < kids.length; i++) {
+        kids[i].classList.remove("correct", "wrong", "celebrate");
+      }
+    }
+
     function renderStory() {
       var s = stories[idx];
-      $("storyTitle").innerHTML = s.title;
-      $("storyDesc").innerHTML = s.desc;
-      $("levelText").innerHTML = s.level;
-      $("progressText").innerHTML = (idx + 1) + " / " + stories.length;
-      $("triesText").innerHTML = String(tries);
+      $("storyTitle").textContent = s.title;
+      $("storyDesc").textContent = s.desc;
+      $("levelText").textContent = s.level;
+      $("progressText").textContent = (idx + 1) + " / " + stories.length;
+      $("triesText").textContent = String(tries);
 
       $("btnNext").disabled = true;
       hintShown = false;
+      selectedForMove = null;
 
       // 섞어서 렌더링
       var mixed = shuffleArray(s.steps);
@@ -276,19 +357,25 @@
         div.className = "item";
         div.setAttribute("draggable", "true");
         div.setAttribute("data-text", items[i]);
+        div.setAttribute("role", "listitem");
+        div.setAttribute("tabindex", "0");
+        div.setAttribute("aria-label", "문장 " + (i + 1) + ": " + items[i] + ". 방향키로 이동, 스페이스로 선택");
 
         var num = document.createElement("div");
         num.className = "num";
-        num.innerHTML = String(i + 1);
+        num.setAttribute("aria-hidden", "true");
+        num.textContent = String(i + 1);
 
         var txt = document.createElement("div");
         txt.className = "txt";
-        txt.innerHTML = items[i];
+        txt.textContent = items[i];
 
         div.appendChild(num);
         div.appendChild(txt);
 
         bindDnD(div);
+        bindTouch(div);
+        bindKeyboard(div);
         list.appendChild(div);
       }
       renumber();
@@ -299,10 +386,12 @@
       var kids = list.children;
       for (var i = 0; i < kids.length; i++) {
         var num = kids[i].querySelector(".num");
-        if (num) num.innerHTML = String(i + 1);
+        if (num) num.textContent = String(i + 1);
+        kids[i].setAttribute("aria-label", "문장 " + (i + 1) + ": " + kids[i].getAttribute("data-text") + ". 방향키로 이동, 스페이스로 선택");
       }
     }
 
+    // 마우스 드래그 앤 드롭
     function bindDnD(el) {
       el.addEventListener("dragstart", function(e){
         dragSrcEl = el;
@@ -334,7 +423,6 @@
         var list = $("list");
         var children = list.children;
 
-        // 현재 el 위치에 dragSrcEl을 끼워넣기
         var srcIndex = indexOfChild(children, dragSrcEl);
         var dstIndex = indexOfChild(children, el);
 
@@ -347,8 +435,159 @@
         }
 
         clearOver();
+        clearItemStates();
         renumber();
       });
+    }
+
+    // 터치 드래그 앤 드롭
+    function bindTouch(el) {
+      el.addEventListener("touchstart", function(e) {
+        if (e.touches.length !== 1) return;
+        
+        touchDragEl = el;
+        var touch = e.touches[0];
+        var rect = el.getBoundingClientRect();
+        touchStartY = touch.clientY;
+        touchOffsetY = touch.clientY - rect.top;
+        
+        el.classList.add("touch-dragging");
+      }, { passive: true });
+
+      el.addEventListener("touchmove", function(e) {
+        if (!touchDragEl || touchDragEl !== el) return;
+        e.preventDefault();
+
+        var touch = e.touches[0];
+        var list = $("list");
+        var kids = list.children;
+
+        // 드래그 중인 요소 위치 업데이트
+        var listRect = list.getBoundingClientRect();
+        var newY = touch.clientY - listRect.top - touchOffsetY;
+        
+        // 다른 요소와 위치 비교하여 순서 변경
+        for (var i = 0; i < kids.length; i++) {
+          if (kids[i] === el) continue;
+          
+          var kidRect = kids[i].getBoundingClientRect();
+          var kidCenter = kidRect.top + kidRect.height / 2;
+          
+          if (touch.clientY < kidCenter && indexOfChild(kids, el) > i) {
+            list.insertBefore(el, kids[i]);
+            clearItemStates();
+            renumber();
+            break;
+          } else if (touch.clientY > kidCenter && indexOfChild(kids, el) < i) {
+            list.insertBefore(el, kids[i].nextSibling);
+            clearItemStates();
+            renumber();
+            break;
+          }
+        }
+      }, { passive: false });
+
+      el.addEventListener("touchend", function(e) {
+        if (touchDragEl === el) {
+          el.classList.remove("touch-dragging");
+          touchDragEl = null;
+          renumber();
+        }
+      });
+
+      el.addEventListener("touchcancel", function(e) {
+        if (touchDragEl === el) {
+          el.classList.remove("touch-dragging");
+          touchDragEl = null;
+          renumber();
+        }
+      });
+    }
+
+    // 키보드 조작
+    function bindKeyboard(el) {
+      el.addEventListener("keydown", function(e) {
+        var list = $("list");
+        var kids = list.children;
+        var currentIndex = indexOfChild(kids, el);
+
+        if (e.key === " " || e.key === "Spacebar") {
+          e.preventDefault();
+          
+          if (selectedForMove === el) {
+            // 선택 해제
+            selectedForMove = null;
+            el.style.outline = "";
+            announceToScreenReader("선택 해제됨");
+          } else if (selectedForMove) {
+            // 위치 교환
+            var srcIndex = indexOfChild(kids, selectedForMove);
+            if (srcIndex < currentIndex) {
+              list.insertBefore(selectedForMove, el.nextSibling);
+            } else {
+              list.insertBefore(selectedForMove, el);
+            }
+            selectedForMove.style.outline = "";
+            selectedForMove = null;
+            clearItemStates();
+            renumber();
+            el.focus();
+            announceToScreenReader("위치 변경 완료");
+          } else {
+            // 선택
+            selectedForMove = el;
+            el.style.outline = "3px solid " + getComputedStyle(document.documentElement).getPropertyValue('--accent');
+            announceToScreenReader("선택됨. 다른 카드에서 스페이스를 눌러 위치를 교환하세요");
+          }
+        }
+
+        if (e.key === "ArrowUp" && currentIndex > 0) {
+          e.preventDefault();
+          if (selectedForMove === el) {
+            // 선택된 상태에서 위로 이동
+            list.insertBefore(el, kids[currentIndex - 1]);
+            clearItemStates();
+            renumber();
+            el.focus();
+          } else {
+            // 포커스만 이동
+            kids[currentIndex - 1].focus();
+          }
+        }
+
+        if (e.key === "ArrowDown" && currentIndex < kids.length - 1) {
+          e.preventDefault();
+          if (selectedForMove === el) {
+            // 선택된 상태에서 아래로 이동
+            list.insertBefore(el, kids[currentIndex + 2] || null);
+            clearItemStates();
+            renumber();
+            el.focus();
+          } else {
+            // 포커스만 이동
+            kids[currentIndex + 1].focus();
+          }
+        }
+
+        if (e.key === "Escape" && selectedForMove) {
+          selectedForMove.style.outline = "";
+          selectedForMove = null;
+          announceToScreenReader("선택 취소됨");
+        }
+      });
+    }
+
+    // 스크린 리더 알림
+    function announceToScreenReader(message) {
+      var announcement = document.createElement("div");
+      announcement.setAttribute("role", "status");
+      announcement.setAttribute("aria-live", "polite");
+      announcement.className = "sr-only";
+      announcement.textContent = message;
+      document.body.appendChild(announcement);
+      setTimeout(function() {
+        document.body.removeChild(announcement);
+      }, 1000);
     }
 
     function clearOver() {
@@ -391,29 +630,52 @@
       hintShown = true;
 
       var s = stories[idx];
-      // 힌트: 1번째와 마지막 문장을 알려주기(난이도 조절 가능)
-      var msg = "힌트: <strong>첫 문장</strong>은 “" + s.steps[0] + "”, <strong>마지막 문장</strong>은 “" + s.steps[s.steps.length - 1] + "” 입니다.";
+      var msg = "힌트: <strong>첫 문장</strong>은 "" + escapeHtml(s.steps[0]) + "", <strong>마지막 문장</strong>은 "" + escapeHtml(s.steps[s.steps.length - 1]) + "" 입니다.";
       setStatus(msg, "");
     }
 
     function checkAnswer() {
       tries += 1;
-      $("triesText").innerHTML = String(tries);
+      $("triesText").textContent = String(tries);
 
       var s = stories[idx];
       var now = getCurrentOrder();
       var ok = arraysEqual(now, s.steps);
 
+      var list = $("list");
+      var kids = list.children;
+
+      // 각 카드에 정답/오답 표시
+      for (var i = 0; i < s.steps.length; i++) {
+        kids[i].classList.remove("correct", "wrong", "celebrate");
+        if (now[i] === s.steps[i]) {
+          kids[i].classList.add("correct");
+        } else {
+          kids[i].classList.add("wrong");
+        }
+      }
+
       if (ok) {
         $("btnNext").disabled = false;
+        
+        // 축하 애니메이션
+        for (var j = 0; j < kids.length; j++) {
+          (function(index) {
+            setTimeout(function() {
+              kids[index].classList.add("celebrate");
+            }, index * 100);
+          })(j);
+        }
+        
         setStatus("정답입니다! 🎉 맥락 흐름이 정확해요. <strong style='margin-left:6px;'>다음</strong>으로 넘어가도 됩니다.", "ok");
+        announceToScreenReader("정답입니다! 다음 버튼을 눌러 진행하세요.");
       } else {
-        // 부분 피드백: 맞는 위치 개수
         var correctPos = 0;
-        for (var i = 0; i < s.steps.length; i++) {
-          if (now[i] === s.steps[i]) correctPos += 1;
+        for (var k = 0; k < s.steps.length; k++) {
+          if (now[k] === s.steps[k]) correctPos += 1;
         }
         setStatus("아쉽지만 아직 아니에요. 맞는 위치: <strong>" + correctPos + "</strong> / " + s.steps.length + "  (타이머 없이 천천히 다시 배열해보세요)", "bad");
+        announceToScreenReader("오답입니다. " + correctPos + "개가 맞는 위치에 있습니다.");
       }
     }
 
@@ -422,6 +684,7 @@
       renderList(shuffleArray(s.steps));
       setStatus("문장을 다시 섞었습니다. 이번엔 흐름(원인→행동→결과)으로 접근해보세요.", "");
       $("btnNext").disabled = true;
+      selectedForMove = null;
     }
 
     function nextStory() {
@@ -434,13 +697,14 @@
         $("btnHint").disabled = true;
         $("btnShuffle").disabled = true;
 
-        $("storyTitle").innerHTML = "완료!";
-        $("storyDesc").innerHTML = "프로토타입 시나리오를 모두 풀었습니다. 운영 시에는 매일 1개(3~4문장)로 제공하면 재방문에 유리합니다.";
-        $("levelText").innerHTML = "—";
-        $("progressText").innerHTML = stories.length + " / " + stories.length;
+        $("storyTitle").textContent = "완료!";
+        $("storyDesc").textContent = "모든 문제를 풀었습니다.";
+        $("levelText").textContent = "—";
+        $("progressText").textContent = stories.length + " / " + stories.length;
 
         $("list").innerHTML = "";
         setStatus("수고했어요! ✅", "ok");
+        announceToScreenReader("모든 문제를 완료했습니다. 수고하셨습니다!");
         return;
       }
       renderStory();
