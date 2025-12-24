@@ -1,0 +1,459 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>맥락 기억 - 순서 맞추기 (Prototype)</title>
+  <style>
+    :root { --bg:#0b0f14; --card:#121925; --muted:#8aa0b8; --text:#e8f0fb; --accent:#6aa6ff; --ok:#3ad29f; --bad:#ff5a6a; }
+    * { box-sizing: border-box; }
+    body {
+      margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans KR", Arial, sans-serif;
+      background: radial-gradient(1200px 600px at 20% -10%, #1b2b42 0%, transparent 60%),
+                  radial-gradient(900px 500px at 90% 10%, #202a3b 0%, transparent 55%),
+                  var(--bg);
+      color: var(--text);
+    }
+    .wrap { max-width: 920px; margin: 0 auto; padding: 22px 16px 40px; }
+    .top {
+      display:flex; gap:14px; align-items:flex-start; justify-content:space-between; flex-wrap:wrap;
+      margin-bottom: 14px;
+    }
+    .title {
+      display:flex; flex-direction:column; gap:6px;
+    }
+    h1 { margin:0; font-size: 20px; letter-spacing: -0.2px; }
+    .sub { margin:0; color: var(--muted); font-size: 13px; line-height: 1.4; }
+    .pill {
+      display:inline-flex; align-items:center; gap:8px;
+      padding: 8px 10px; border-radius: 999px;
+      background: rgba(255,255,255,0.06);
+      color: var(--muted); font-size: 12px;
+    }
+    .board {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 16px;
+      padding: 14px;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.35);
+    }
+    .row { display:flex; gap:12px; flex-wrap:wrap; align-items:center; justify-content:space-between; }
+    .storyBox { margin-top: 10px; padding: 12px; border-radius: 14px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); }
+    .storyTitle { font-size: 14px; margin: 0 0 6px; }
+    .storyHint { margin:0; color: var(--muted); font-size: 13px; line-height:1.45; }
+
+    .list {
+      margin-top: 12px;
+      display:flex; flex-direction:column; gap:10px;
+      padding: 10px;
+      border-radius: 14px;
+      background: rgba(0,0,0,0.18);
+      border: 1px dashed rgba(255,255,255,0.12);
+      min-height: 220px;
+    }
+    .item {
+      display:flex; gap:10px; align-items:flex-start;
+      padding: 12px 12px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.10);
+      cursor: grab;
+      user-select: none;
+    }
+    .item:active { cursor: grabbing; }
+    .num {
+      width: 28px; height: 28px; border-radius: 10px;
+      background: rgba(106,166,255,0.18);
+      border: 1px solid rgba(106,166,255,0.35);
+      display:flex; align-items:center; justify-content:center;
+      color: var(--accent); font-weight: 700; font-size: 12px;
+      flex: 0 0 auto;
+    }
+    .txt { font-size: 14px; line-height: 1.5; color: var(--text); }
+    .item.dragging { opacity: 0.55; transform: scale(0.99); }
+    .item.over { outline: 2px solid rgba(106,166,255,0.55); }
+
+    .btns { display:flex; gap:10px; flex-wrap:wrap; }
+    button {
+      border: 0; border-radius: 12px;
+      padding: 10px 12px;
+      font-size: 13px;
+      background: rgba(255,255,255,0.08);
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,0.12);
+      cursor:pointer;
+    }
+    button:hover { background: rgba(255,255,255,0.11); }
+    button.primary {
+      background: rgba(106,166,255,0.18);
+      border: 1px solid rgba(106,166,255,0.40);
+      color: #dcebff;
+    }
+    button.danger {
+      background: rgba(255,90,106,0.14);
+      border: 1px solid rgba(255,90,106,0.35);
+    }
+    .status {
+      margin-top: 12px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.04);
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.5;
+      min-height: 44px;
+      display:flex; align-items:center;
+    }
+    .status.ok { color: #b9ffe7; border-color: rgba(58,210,159,0.35); background: rgba(58,210,159,0.10); }
+    .status.bad { color: #ffd0d6; border-color: rgba(255,90,106,0.35); background: rgba(255,90,106,0.10); }
+    .footer {
+      margin-top: 14px; color: rgba(138,160,184,0.9); font-size: 12px; line-height: 1.5;
+    }
+    .kbd {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      padding: 2px 6px; border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.06);
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <div class="title">
+        <h1>맥락 기억: 순서 맞추기</h1>
+        <p class="sub">문장(또는 짧은 장면)을 드래그해서 올바른 순서로 배열해보세요. <span class="kbd">정답 확인</span>을 누르면 채점합니다.</p>
+      </div>
+      <div class="pill">
+        <span>진행</span>
+        <strong id="progressText">1 / 5</strong>
+      </div>
+    </div>
+
+    <div class="board">
+      <div class="row">
+        <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+          <div class="pill">난이도: <strong id="levelText">쉬움</strong></div>
+          <div class="pill">시도: <strong id="triesText">0</strong></div>
+        </div>
+        <div class="btns">
+          <button id="btnShuffle" class="danger" type="button">다시 섞기</button>
+          <button id="btnHint" type="button">힌트</button>
+          <button id="btnCheck" class="primary" type="button">정답 확인</button>
+          <button id="btnNext" type="button" disabled>다음</button>
+        </div>
+      </div>
+
+      <div class="storyBox">
+        <p class="storyTitle"><strong id="storyTitle">—</strong></p>
+        <p class="storyHint" id="storyDesc">—</p>
+      </div>
+
+      <div class="list" id="list"></div>
+
+      <div class="status" id="status">
+        문장 카드를 드래그해서 순서를 바꾼 뒤, <strong style="margin-left:6px;">정답 확인</strong>을 눌러주세요.
+      </div>
+
+      <div class="footer">
+        <div>• 접근성/고령층 고려: 큰 버튼, 짧은 문장, 실패 패널티 없음</div>
+        <div>• 운영 아이디어: “오늘의 기사 요약 3문장 순서 맞추기”로 매일 1개 제공</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ES6 최소화(사용자 선호): var/function 위주로 작성
+
+    var stories = [
+      {
+        title: "아침 루틴",
+        desc: "일상 흐름이 자연스럽게 이어지도록 순서를 맞춰보세요.",
+        level: "쉬움",
+        steps: [
+          "알람이 울려 눈을 뜬다.",
+          "세수를 하고 이를 닦는다.",
+          "아침을 간단히 먹는다.",
+          "가방을 챙겨 집을 나선다."
+        ]
+      },
+      {
+        title: "카페에서 주문하기",
+        desc: "실제로 경험하는 순서를 떠올리면 쉽게 맞출 수 있어요.",
+        level: "쉬움",
+        steps: [
+          "메뉴를 보고 마실 것을 고른다.",
+          "카운터에서 주문하고 결제한다.",
+          "진동벨(또는 호출)을 기다린다.",
+          "음료를 받아 자리로 간다."
+        ]
+      },
+      {
+        title: "비 오는 날 우산",
+        desc: "원인→행동→결과 흐름을 생각해보세요.",
+        level: "보통",
+        steps: [
+          "밖에 비가 오는지 확인한다.",
+          "우산을 챙기거나 우비를 준비한다.",
+          "밖으로 나가 이동한다.",
+          "젖지 않게 우산을 접고 정리한다."
+        ]
+      },
+      {
+        title: "택배 받기",
+        desc: "중간 단계를 빠뜨리지 않는 게 포인트입니다.",
+        level: "보통",
+        steps: [
+          "택배 도착 알림을 확인한다.",
+          "문 앞(또는 경비실/무인함)으로 간다.",
+          "택배를 찾아 집 안으로 옮긴다.",
+          "포장을 뜯고 내용물을 확인한다."
+        ]
+      },
+      {
+        title: "기사 읽고 공유하기(언론사형)",
+        desc: "뉴스 소비 흐름을 기반으로 한 시나리오입니다.",
+        level: "보통",
+        steps: [
+          "제목을 보고 관심 기사를 선택한다.",
+          "본문을 읽으며 핵심을 파악한다.",
+          "핵심 내용을 한 문장으로 정리한다.",
+          "가족/지인에게 링크를 공유한다."
+        ]
+      }
+    ];
+
+    var idx = 0;
+    var tries = 0;
+    var hintShown = false;
+    var dragSrcEl = null;
+
+    function $(id){ return document.getElementById(id); }
+
+    function shuffleArray(arr) {
+      // Fisher-Yates
+      var a = arr.slice();
+      for (var i = a.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var tmp = a[i]; a[i] = a[j]; a[j] = tmp;
+      }
+      return a;
+    }
+
+    function setStatus(msg, kind) {
+      var el = $("status");
+      el.className = "status";
+      if (kind === "ok") el.className = "status ok";
+      if (kind === "bad") el.className = "status bad";
+      el.innerHTML = msg;
+    }
+
+    function renderStory() {
+      var s = stories[idx];
+      $("storyTitle").innerHTML = s.title;
+      $("storyDesc").innerHTML = s.desc;
+      $("levelText").innerHTML = s.level;
+      $("progressText").innerHTML = (idx + 1) + " / " + stories.length;
+      $("triesText").innerHTML = String(tries);
+
+      $("btnNext").disabled = true;
+      hintShown = false;
+
+      // 섞어서 렌더링
+      var mixed = shuffleArray(s.steps);
+      renderList(mixed);
+
+      setStatus("문장 카드를 드래그해서 순서를 바꾼 뒤, <strong style='margin-left:6px;'>정답 확인</strong>을 눌러주세요.", "");
+    }
+
+    function renderList(items) {
+      var list = $("list");
+      list.innerHTML = "";
+
+      for (var i = 0; i < items.length; i++) {
+        var div = document.createElement("div");
+        div.className = "item";
+        div.setAttribute("draggable", "true");
+        div.setAttribute("data-text", items[i]);
+
+        var num = document.createElement("div");
+        num.className = "num";
+        num.innerHTML = String(i + 1);
+
+        var txt = document.createElement("div");
+        txt.className = "txt";
+        txt.innerHTML = items[i];
+
+        div.appendChild(num);
+        div.appendChild(txt);
+
+        bindDnD(div);
+        list.appendChild(div);
+      }
+      renumber();
+    }
+
+    function renumber() {
+      var list = $("list");
+      var kids = list.children;
+      for (var i = 0; i < kids.length; i++) {
+        var num = kids[i].querySelector(".num");
+        if (num) num.innerHTML = String(i + 1);
+      }
+    }
+
+    function bindDnD(el) {
+      el.addEventListener("dragstart", function(e){
+        dragSrcEl = el;
+        el.classList.add("dragging");
+        e.dataTransfer.effectAllowed = "move";
+        try { e.dataTransfer.setData("text/plain", el.getAttribute("data-text")); } catch (err) {}
+      });
+
+      el.addEventListener("dragend", function(){
+        el.classList.remove("dragging");
+        clearOver();
+        renumber();
+      });
+
+      el.addEventListener("dragover", function(e){
+        e.preventDefault();
+        e.dataTransfer.dropEffect = "move";
+        el.classList.add("over");
+      });
+
+      el.addEventListener("dragleave", function(){
+        el.classList.remove("over");
+      });
+
+      el.addEventListener("drop", function(e){
+        e.preventDefault();
+        if (!dragSrcEl || dragSrcEl === el) return;
+
+        var list = $("list");
+        var children = list.children;
+
+        // 현재 el 위치에 dragSrcEl을 끼워넣기
+        var srcIndex = indexOfChild(children, dragSrcEl);
+        var dstIndex = indexOfChild(children, el);
+
+        if (srcIndex < 0 || dstIndex < 0) return;
+
+        if (srcIndex < dstIndex) {
+          list.insertBefore(dragSrcEl, el.nextSibling);
+        } else {
+          list.insertBefore(dragSrcEl, el);
+        }
+
+        clearOver();
+        renumber();
+      });
+    }
+
+    function clearOver() {
+      var list = $("list");
+      var kids = list.children;
+      for (var i = 0; i < kids.length; i++) kids[i].classList.remove("over");
+    }
+
+    function indexOfChild(htmlCollection, node) {
+      for (var i = 0; i < htmlCollection.length; i++) {
+        if (htmlCollection[i] === node) return i;
+      }
+      return -1;
+    }
+
+    function getCurrentOrder() {
+      var list = $("list");
+      var kids = list.children;
+      var out = [];
+      for (var i = 0; i < kids.length; i++) {
+        out.push(kids[i].getAttribute("data-text"));
+      }
+      return out;
+    }
+
+    function arraysEqual(a, b) {
+      if (!a || !b) return false;
+      if (a.length !== b.length) return false;
+      for (var i = 0; i < a.length; i++) {
+        if (a[i] !== b[i]) return false;
+      }
+      return true;
+    }
+
+    function showHint() {
+      if (hintShown) {
+        setStatus("힌트는 이미 표시했어요. 다시 한 번 정답 흐름(원인→행동→결과)을 떠올려보세요.", "");
+        return;
+      }
+      hintShown = true;
+
+      var s = stories[idx];
+      // 힌트: 1번째와 마지막 문장을 알려주기(난이도 조절 가능)
+      var msg = "힌트: <strong>첫 문장</strong>은 “" + s.steps[0] + "”, <strong>마지막 문장</strong>은 “" + s.steps[s.steps.length - 1] + "” 입니다.";
+      setStatus(msg, "");
+    }
+
+    function checkAnswer() {
+      tries += 1;
+      $("triesText").innerHTML = String(tries);
+
+      var s = stories[idx];
+      var now = getCurrentOrder();
+      var ok = arraysEqual(now, s.steps);
+
+      if (ok) {
+        $("btnNext").disabled = false;
+        setStatus("정답입니다! 🎉 맥락 흐름이 정확해요. <strong style='margin-left:6px;'>다음</strong>으로 넘어가도 됩니다.", "ok");
+      } else {
+        // 부분 피드백: 맞는 위치 개수
+        var correctPos = 0;
+        for (var i = 0; i < s.steps.length; i++) {
+          if (now[i] === s.steps[i]) correctPos += 1;
+        }
+        setStatus("아쉽지만 아직 아니에요. 맞는 위치: <strong>" + correctPos + "</strong> / " + s.steps.length + "  (타이머 없이 천천히 다시 배열해보세요)", "bad");
+      }
+    }
+
+    function reshuffle() {
+      var s = stories[idx];
+      renderList(shuffleArray(s.steps));
+      setStatus("문장을 다시 섞었습니다. 이번엔 흐름(원인→행동→결과)으로 접근해보세요.", "");
+      $("btnNext").disabled = true;
+    }
+
+    function nextStory() {
+      idx += 1;
+      tries = 0;
+      if (idx >= stories.length) {
+        // 종료 화면
+        $("btnNext").disabled = true;
+        $("btnCheck").disabled = true;
+        $("btnHint").disabled = true;
+        $("btnShuffle").disabled = true;
+
+        $("storyTitle").innerHTML = "완료!";
+        $("storyDesc").innerHTML = "프로토타입 시나리오를 모두 풀었습니다. 운영 시에는 매일 1개(3~4문장)로 제공하면 재방문에 유리합니다.";
+        $("levelText").innerHTML = "—";
+        $("progressText").innerHTML = stories.length + " / " + stories.length;
+
+        $("list").innerHTML = "";
+        setStatus("수고했어요! ✅", "ok");
+        return;
+      }
+      renderStory();
+    }
+
+    // 버튼 바인딩
+    $("btnHint").addEventListener("click", showHint);
+    $("btnCheck").addEventListener("click", checkAnswer);
+    $("btnShuffle").addEventListener("click", reshuffle);
+    $("btnNext").addEventListener("click", nextStory);
+
+    // 시작
+    renderStory();
+  </script>
+</body>
+</html>
