@@ -287,9 +287,7 @@
 
     // 터치 드래그용 변수
     var touchDragEl = null;
-    var touchStartY = 0;
     var touchOffsetY = 0;
-    var touchClone = null;
 
     // 키보드 선택 모드
     var selectedForMove = null;
@@ -461,10 +459,6 @@
         var touch = e.touches[0];
         var list = $("list");
         var kids = list.children;
-
-        // 드래그 중인 요소 위치 업데이트
-        var listRect = list.getBoundingClientRect();
-        var newY = touch.clientY - listRect.top - touchOffsetY;
         
         // 다른 요소와 위치 비교하여 순서 변경
         for (var i = 0; i < kids.length; i++) {
@@ -630,7 +624,7 @@
       hintShown = true;
 
       var s = stories[idx];
-      var msg = "힌트: <strong>첫 문장</strong>은 "" + escapeHtml(s.steps[0]) + "", <strong>마지막 문장</strong>은 "" + escapeHtml(s.steps[s.steps.length - 1]) + "" 입니다.";
+      var msg = "힌트: <strong>첫 문장</strong>은 \"" + escapeHtml(s.steps[0]) + "\", <strong>마지막 문장</strong>은 \"" + escapeHtml(s.steps[s.steps.length - 1]) + "\" 입니다.";
       setStatus(msg, "");
     }
 
@@ -660,11 +654,13 @@
         
         // 축하 애니메이션
         for (var j = 0; j < kids.length; j++) {
-          (function(index) {
+          (function(index, kidsRef) {
             setTimeout(function() {
-              kids[index].classList.add("celebrate");
+              if (kidsRef[index]) {
+                kidsRef[index].classList.add("celebrate");
+              }
             }, index * 100);
-          })(j);
+          })(j, kids);
         }
         
         setStatus("정답입니다! 🎉 맥락 흐름이 정확해요. <strong style='margin-left:6px;'>다음</strong>으로 넘어가도 됩니다.", "ok");
