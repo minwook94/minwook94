@@ -3,19 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
-  <title>두뇌 튼튼 - 순서 맞추기 (다크모드)</title>
+  <title>두뇌 튼튼 - 순서 맞추기 (다크모드 + 드래그)</title>
   <style>
-    /* 1. 다크 모드 색상 테마 */
     :root {
-      --bg-color: #121212;       /* 아주 어두운 배경 */
-      --card-bg: #1e1e1e;        /* 카드 배경 */
-      --text-main: #ffffff;      /* 메인 텍스트 (흰색) */
-      --text-sub: #aaaaaa;       /* 보조 텍스트 (회색) */
-      --primary: #4dacff;        /* 잘 보이는 밝은 파랑 */
-      --primary-bg: #004a8f;     /* 파랑 배경 */
-      --border: #444444;         /* 테두리 */
-      --correct: #4cd964;        /* 정답 초록 */
-      --wrong: #ff5f5f;          /* 오답 빨강 */
+      --bg-color: #121212;
+      --card-bg: #1e1e1e;
+      --text-main: #ffffff;
+      --text-sub: #aaaaaa;
+      --primary: #4dacff;
+      --border: #444444;
+      --correct: #4cd964;
+      --wrong: #ff5f5f;
     }
 
     body {
@@ -28,6 +26,7 @@
       flex-direction: column;
       align-items: center;
       min-height: 100vh;
+      user-select: none; /* 텍스트 선택 방지 (드래그 간섭 방지) */
     }
 
     .container {
@@ -37,32 +36,36 @@
       border-radius: 20px;
       padding: 24px;
       box-sizing: border-box;
-      /* 은은한 테두리로 구분감 주기 */
       border: 1px solid #333; 
     }
 
-    /* 헤더 영역 */
     header { text-align: center; margin-bottom: 30px; }
     h1 { margin: 0 0 10px; font-size: 26px; color: var(--primary); }
     p.desc { margin: 0; font-size: 19px; color: var(--text-sub); line-height: 1.5; }
 
-    /* 진행 단계 점 */
     .progress-bar { display: flex; justify-content: center; gap: 8px; margin-bottom: 30px; }
     .dot { width: 12px; height: 12px; border-radius: 50%; background: #444; transition: background 0.3s; }
     .dot.active { background: var(--primary); transform: scale(1.2); }
 
-    /* 정답 들어갈 슬롯 영역 */
+    /* --- 드래그 타겟 (빈칸) --- */
     .slots-area {
       display: flex;
       flex-direction: column;
       gap: 12px;
       margin-bottom: 40px;
       padding: 16px;
-      background-color: #262626; /* 카드보다 조금 더 밝거나 어둡게 */
+      background-color: #262626;
       border-radius: 16px;
       border: 2px dashed #555;
+      transition: border-color 0.2s, background-color 0.2s;
     }
     
+    /* 드래그해서 위에 올라왔을 때 강조 효과 */
+    .slots-area.drag-over {
+      border-color: var(--primary);
+      background-color: #2a3b4d;
+    }
+
     .slot {
       min-height: 68px;
       background: #333;
@@ -70,16 +73,14 @@
       border-radius: 12px;
       display: flex;
       align-items: center;
-      padding: 10px 16px 10px 50px; /* 숫자 공간 확보 */
+      padding: 10px 16px 10px 50px;
       font-size: 20px;
       font-weight: 500;
-      cursor: pointer;
       position: relative;
       color: #ddd;
       transition: all 0.2s;
     }
     
-    /* 1, 2, 3 숫자 표시 */
     .slot::before {
       content: attr(data-num);
       position: absolute;
@@ -88,24 +89,25 @@
       font-size: 24px;
       font-weight: 800;
     }
-    
-    /* 채워졌을 때 스타일 (고대비) */
+
     .slot.filled {
       border-color: var(--primary);
-      background-color: #2a3b4d; /* 푸른빛 어두운 배경 */
+      background-color: #2a3b4d;
       color: #fff;
       font-weight: bold;
+      cursor: pointer; /* 채워진 건 누르면 빠짐 */
     }
     .slot.filled::before { color: var(--primary); }
     .slot.filled::after {
-      content: "✕"; /* 취소 아이콘 */
+      content: "✕"; 
       position: absolute;
       right: 16px;
       color: var(--primary);
     }
 
-    /* 보기 버튼들 */
+    /* --- 드래그 소스 (보기) --- */
     .options-area { display: flex; flex-direction: column; gap: 12px; }
+    
     .option-btn {
       background: #333;
       border: 2px solid #555;
@@ -114,12 +116,19 @@
       border-radius: 12px;
       font-size: 20px;
       text-align: left;
-      cursor: pointer;
-      transition: background 0.2s;
+      cursor: grab; /* 손바닥 모양 (드래그 가능 암시) */
+      transition: transform 0.1s, opacity 0.2s, background 0.2s;
     }
-    .option-btn:active { background: #444; transform: scale(0.98); }
     
-    /* 선택된 보기 숨김 스타일 */
+    .option-btn:active { cursor: grabbing; }
+
+    /* 드래그 중인 원본 스타일 */
+    .option-btn.dragging {
+      opacity: 0.5;
+      background: var(--primary);
+      border-color: var(--primary);
+    }
+    
     .option-btn.selected {
       opacity: 0.3;
       background: #222;
@@ -128,7 +137,6 @@
       text-decoration: line-through;
     }
 
-    /* 결과 메시지 및 버튼 */
     .result-area { margin-top: 40px; text-align: center; }
     .message { font-size: 22px; font-weight: bold; margin-bottom: 20px; min-height: 30px; }
     .message.good { color: var(--correct); }
@@ -142,7 +150,7 @@
       border-radius: 14px;
       border: none;
       cursor: pointer;
-      color: #000; /* 버튼 글씨는 검정으로 가독성 확보 */
+      color: #000;
       background-color: var(--primary);
       transition: opacity 0.3s;
     }
@@ -152,7 +160,6 @@
       cursor: not-allowed;
     }
 
-    /* 접근성 힌트 */
     .a11y-hint {
       margin-top: 10px;
       font-size: 14px;
@@ -166,13 +173,14 @@
   <div class="container">
     <header>
       <h1>두뇌 튼튼 퀴즈</h1>
-      <p class="desc" id="storyTitle">순서대로 눌러보세요</p>
+      <p class="desc" id="storyTitle">순서대로 빈칸에 끌어다 놓으세요</p>
     </header>
 
     <div class="progress-bar" id="progressBar"></div>
 
-    <div class="slots-area" id="slotsArea"></div>
-    <div class="a11y-hint">※ 위 칸을 누르면 다시 취소됩니다.</div>
+    <div class="slots-area" id="dropZone">
+        </div>
+    <div class="a11y-hint">※ 글자를 누르거나 끌어서 위로 옮길 수 있습니다.</div>
 
     <div style="margin: 20px 0;"></div>
 
@@ -185,10 +193,6 @@
   </div>
 
   <script>
-    /**
-     * [문제 데이터 수정]
-     * 어르신들이 헷갈리지 않도록 인과관계가 아주 명확한 자연/일상 소재로 변경했습니다.
-     */
     const quizData = [
       {
         title: "식물 키우기",
@@ -206,33 +210,34 @@
 
     let currentIdx = 0;
     let currentSlots = [null, null, null]; 
-    let shuffledOptions = []; // 현재 문제의 섞인 보기들
+    let shuffledOptions = []; 
     let isFinished = false;
+    let draggedItem = null; // 드래그 중인 아이템 데이터 저장
 
     const els = {
       title: document.getElementById('storyTitle'),
       progress: document.getElementById('progressBar'),
-      slots: document.getElementById('slotsArea'),
+      dropZone: document.getElementById('dropZone'), // 슬롯 컨테이너
       options: document.getElementById('optionsArea'),
       msg: document.getElementById('message'),
       btn: document.getElementById('mainBtn')
     };
 
     function initQuiz() {
-      // 상태 초기화
       currentSlots = [null, null, null];
       isFinished = false;
+      draggedItem = null;
+      
       els.msg.textContent = "";
       els.msg.className = "message";
-      
       els.btn.textContent = "정답 확인하기";
-      els.btn.onclick = checkAnswer;
       els.btn.disabled = true;
+      els.btn.onclick = checkAnswer;
 
       const data = quizData[currentIdx];
       els.title.textContent = `[문제 ${currentIdx + 1}] ${data.title}`;
 
-      // 진행바 그리기
+      // 진행바
       els.progress.innerHTML = '';
       quizData.forEach((_, i) => {
         const dot = document.createElement('div');
@@ -240,20 +245,17 @@
         els.progress.appendChild(dot);
       });
 
-      // 보기 섞기 (문제 시작할 때 딱 한 번만 수행)
-      // 원본 텍스트와 원래 인덱스를 객체로 저장
+      // 보기 섞기
       shuffledOptions = data.steps.map((text, idx) => ({ text, originalIdx: idx }));
       shuffleArray(shuffledOptions);
 
       render();
     }
 
-    // 화면 그리기 통합 함수
     function render() {
       renderSlots();
       renderOptions();
       
-      // 3칸 다 찼는지 확인해서 버튼 활성화
       const allFilled = currentSlots.every(s => s !== null);
       if (!isFinished) {
         els.btn.disabled = !allFilled;
@@ -261,7 +263,7 @@
     }
 
     function renderSlots() {
-      els.slots.innerHTML = "";
+      els.dropZone.innerHTML = "";
       for(let i=0; i<3; i++) {
         const slot = document.createElement('div');
         const item = currentSlots[i];
@@ -271,7 +273,7 @@
         
         if (item) {
           slot.textContent = item.text;
-          // 클릭 시 취소
+          // 클릭 시 취소 (내려보내기)
           slot.onclick = () => {
             if(!isFinished) {
               currentSlots[i] = null;
@@ -279,12 +281,11 @@
             }
           };
         } else {
-          slot.textContent = "여기를 눌러 선택하세요";
-          // 빈칸 클릭 시엔 아무 동작 안함 (보기 버튼을 눌러야 함)
+          slot.textContent = "여기로 끌어오세요";
           slot.style.color = "#555"; 
           slot.style.fontSize = "16px";
         }
-        els.slots.appendChild(slot);
+        els.dropZone.appendChild(slot);
       }
     }
 
@@ -294,69 +295,108 @@
         const btn = document.createElement('div');
         btn.className = "option-btn";
         btn.textContent = opt.text;
-
-        // 이미 슬롯에 선택된 녀석인지 확인
-        const isSelected = currentSlots.some(s => s && s.text === opt.text);
         
+        // **[드래그 기능 추가]**
+        btn.setAttribute('draggable', 'true');
+        
+        const isSelected = currentSlots.some(s => s && s.text === opt.text);
+
         if (isSelected) {
           btn.classList.add('selected');
         } else {
-          // 선택되지 않았으면 클릭 이벤트 연결
           if (!isFinished) {
-            btn.onclick = () => selectOption(opt);
+            // 1. 클릭 이벤트 (기존 유지)
+            btn.onclick = () => insertItem(opt);
+            
+            // 2. 드래그 시작 이벤트
+            btn.addEventListener('dragstart', (e) => {
+              draggedItem = opt;
+              btn.classList.add('dragging');
+              // 데이터 전송 (필수)
+              e.dataTransfer.effectAllowed = "copyMove";
+              e.dataTransfer.setData('text/plain', JSON.stringify(opt));
+            });
+            
+            // 3. 드래그 종료 이벤트
+            btn.addEventListener('dragend', () => {
+              btn.classList.remove('dragging');
+              draggedItem = null;
+              els.dropZone.classList.remove('drag-over');
+            });
           }
         }
         els.options.appendChild(btn);
       });
     }
 
-    function selectOption(optItem) {
-      // 앞에서부터 빈칸 찾기
-      const emptyIdx = currentSlots.findIndex(item => item === null);
-      if (emptyIdx === -1) return; // 꽉 찼으면 무시
-
-      currentSlots[emptyIdx] = optItem;
+    // 빈칸에 아이템 넣는 로직 (클릭/드롭 공용)
+    function insertItem(item) {
+      const emptyIdx = currentSlots.findIndex(x => x === null);
+      if (emptyIdx === -1) return; 
+      currentSlots[emptyIdx] = item;
       render();
     }
 
+    // --- 드롭존(빈칸 영역) 이벤트 처리 ---
+    els.dropZone.addEventListener('dragover', (e) => {
+      e.preventDefault(); // 드롭 허용
+      if(!isFinished) {
+        els.dropZone.classList.add('drag-over');
+      }
+    });
+
+    els.dropZone.addEventListener('dragleave', (e) => {
+      els.dropZone.classList.remove('drag-over');
+    });
+
+    els.dropZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      els.dropZone.classList.remove('drag-over');
+      
+      if(isFinished) return;
+      if(draggedItem) {
+        insertItem(draggedItem);
+        draggedItem = null; // 초기화
+      }
+    });
+
     function checkAnswer() {
       const data = quizData[currentIdx];
-      // 사용자가 채운 텍스트 배열
       const userAnswers = currentSlots.map(s => s.text);
-      
-      // 원본 정답 배열과 비교
       const isCorrect = JSON.stringify(userAnswers) === JSON.stringify(data.steps);
 
       if (isCorrect) {
         els.msg.textContent = "정답입니다! 참 잘하셨어요 👏";
         els.msg.className = "message good";
         els.btn.textContent = "다음 문제 풀기";
-        els.btn.disabled = false;
         els.btn.onclick = nextQuiz;
         isFinished = true;
-        
-        // 정답 시 보기 버튼들 비활성화 처리 (UI 갱신)
         render(); 
       } else {
-        els.msg.textContent = "순서가 조금 달라요. 다시 생각해보세요.";
+        // [수정됨] 오답 시 전체 초기화 로직
+        els.msg.textContent = "틀렸습니다. 다시 처음부터 해보세요!";
         els.msg.className = "message bad";
         
-        // 틀렸을 때 시각적 피드백 (테두리 붉게)
-        els.slots.style.borderColor = "var(--wrong)";
-        setTimeout(() => els.slots.style.borderColor = "#555", 1000);
+        // 0.5초 뒤에 초기화 (사용자가 틀렸음을 인지할 시간 부여)
+        setTimeout(() => {
+            currentSlots = [null, null, null]; // 선택값 전부 초기화
+            render(); // 화면 갱신 (보기도 다시 활성화됨)
+            // 시각적 피드백 (깜빡임)
+            els.dropZone.style.borderColor = "var(--wrong)";
+            setTimeout(() => els.dropZone.style.borderColor = "#555", 800);
+        }, 300);
       }
     }
 
     function nextQuiz() {
       currentIdx++;
       if (currentIdx >= quizData.length) {
-        // 엔딩 화면
         document.body.innerHTML = `
           <div class="container" style="text-align:center; padding-top:50px; border:1px solid #333;">
             <h1 style="color:var(--primary)">건강한 두뇌 완성!</h1>
             <p style="font-size:20px; line-height:1.6; color:#ddd;">
-              모든 문제를 훌륭하게 맞추셨습니다.<br>
-              오늘도 기분 좋은 하루 보내세요.
+              모든 문제를 맞추셨습니다.<br>
+              수고 많으셨습니다.
             </p>
             <button class="action-btn" onclick="location.reload()" style="margin-top:40px;">처음부터 다시 하기</button>
           </div>
@@ -373,9 +413,7 @@
       }
     }
 
-    // 앱 시작
     initQuiz();
-
   </script>
 </body>
 </html>
