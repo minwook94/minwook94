@@ -3,18 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
-  <title>두뇌 튼튼 - 순서 맞추기</title>
+  <title>두뇌 튼튼 - 순서 맞추기 (다크모드)</title>
   <style>
-    /* 1. 가독성을 위한 기본 설정 */
+    /* 1. 다크 모드 색상 테마 */
     :root {
-      --bg-color: #f4f6f8;
-      --card-bg: #ffffff;
-      --text-main: #111111;
-      --text-sub: #555555;
-      --primary: #2b7fff; /* 선명한 파란색 */
-      --correct: #28a745; /* 선명한 초록색 */
-      --wrong: #dc3545;   /* 선명한 빨간색 */
-      --border: #dde0e3;
+      --bg-color: #121212;       /* 아주 어두운 배경 */
+      --card-bg: #1e1e1e;        /* 카드 배경 */
+      --text-main: #ffffff;      /* 메인 텍스트 (흰색) */
+      --text-sub: #aaaaaa;       /* 보조 텍스트 (회색) */
+      --primary: #4dacff;        /* 잘 보이는 밝은 파랑 */
+      --primary-bg: #004a8f;     /* 파랑 배경 */
+      --border: #444444;         /* 테두리 */
+      --correct: #4cd964;        /* 정답 초록 */
+      --wrong: #ff5f5f;          /* 오답 빨강 */
     }
 
     body {
@@ -29,146 +30,107 @@
       min-height: 100vh;
     }
 
-    /* 2. 컨테이너: 폭을 넓게 잡되 중앙 정렬 */
     .container {
       width: 100%;
       max-width: 600px;
       background: var(--card-bg);
       border-radius: 20px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
       padding: 24px;
       box-sizing: border-box;
+      /* 은은한 테두리로 구분감 주기 */
+      border: 1px solid #333; 
     }
 
-    /* 3. 헤더: 크고 명확하게 */
-    header {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-    h1 {
-      margin: 0 0 10px;
-      font-size: 26px;
-      color: var(--primary);
-    }
-    p.desc {
-      margin: 0;
-      font-size: 18px;
-      color: var(--text-sub);
-      line-height: 1.5;
-    }
+    /* 헤더 영역 */
+    header { text-align: center; margin-bottom: 30px; }
+    h1 { margin: 0 0 10px; font-size: 26px; color: var(--primary); }
+    p.desc { margin: 0; font-size: 19px; color: var(--text-sub); line-height: 1.5; }
 
-    /* 4. 진행 상태 바 */
-    .progress-bar {
-      display: flex;
-      justify-content: center;
-      gap: 6px;
-      margin-bottom: 30px;
-    }
-    .dot {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: #ddd;
-    }
-    .dot.active { background: var(--primary); }
+    /* 진행 단계 점 */
+    .progress-bar { display: flex; justify-content: center; gap: 8px; margin-bottom: 30px; }
+    .dot { width: 12px; height: 12px; border-radius: 50%; background: #444; transition: background 0.3s; }
+    .dot.active { background: var(--primary); transform: scale(1.2); }
 
-    /* 5. 정답 칸 (Slots) */
+    /* 정답 들어갈 슬롯 영역 */
     .slots-area {
       display: flex;
       flex-direction: column;
       gap: 12px;
       margin-bottom: 40px;
       padding: 16px;
-      background-color: #f9f9f9;
+      background-color: #262626; /* 카드보다 조금 더 밝거나 어둡게 */
       border-radius: 16px;
-      border: 2px dashed #ccc;
-    }
-    .slot-label {
-      font-size: 16px;
-      color: var(--text-sub);
-      margin-bottom: 4px;
-      font-weight: bold;
+      border: 2px dashed #555;
     }
     
     .slot {
-      min-height: 64px;
-      background: #fff;
+      min-height: 68px;
+      background: #333;
       border: 2px solid var(--border);
       border-radius: 12px;
       display: flex;
       align-items: center;
-      padding: 10px 16px;
+      padding: 10px 16px 10px 50px; /* 숫자 공간 확보 */
       font-size: 20px;
       font-weight: 500;
       cursor: pointer;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.03);
       position: relative;
+      color: #ddd;
+      transition: all 0.2s;
     }
     
-    /* 비어있을 때 숫자 표시 */
-    .slot.empty::before {
+    /* 1, 2, 3 숫자 표시 */
+    .slot::before {
       content: attr(data-num);
       position: absolute;
       left: 16px;
-      color: #ddd;
+      color: #666;
       font-size: 24px;
-      font-weight: bold;
+      font-weight: 800;
     }
     
-    /* 채워졌을 때 스타일 */
+    /* 채워졌을 때 스타일 (고대비) */
     .slot.filled {
       border-color: var(--primary);
-      background-color: #eef6ff;
-      color: var(--primary);
+      background-color: #2a3b4d; /* 푸른빛 어두운 배경 */
+      color: #fff;
+      font-weight: bold;
     }
+    .slot.filled::before { color: var(--primary); }
     .slot.filled::after {
       content: "✕"; /* 취소 아이콘 */
       position: absolute;
       right: 16px;
       color: var(--primary);
-      opacity: 0.6;
     }
 
-    /* 6. 보기 버튼들 (Options) */
-    .options-area {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
+    /* 보기 버튼들 */
+    .options-area { display: flex; flex-direction: column; gap: 12px; }
     .option-btn {
-      background: #fff;
-      border: 2px solid #bbb;
-      color: #333;
-      padding: 16px;
+      background: #333;
+      border: 2px solid #555;
+      color: #eee;
+      padding: 18px;
       border-radius: 12px;
       font-size: 20px;
       text-align: left;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: background 0.2s;
     }
-    .option-btn:active {
-      transform: scale(0.98);
-      background: #eee;
-    }
-    /* 선택된 보기는 숨김 처리 (흐리게) */
+    .option-btn:active { background: #444; transform: scale(0.98); }
+    
+    /* 선택된 보기 숨김 스타일 */
     .option-btn.selected {
       opacity: 0.3;
+      background: #222;
+      border-color: #333;
       pointer-events: none;
-      background: #eee;
-      border-color: #eee;
+      text-decoration: line-through;
     }
 
-    /* 7. 결과 메시지 및 버튼 */
-    .result-area {
-      margin-top: 30px;
-      text-align: center;
-      min-height: 80px;
-    }
-    .message {
-      font-size: 22px;
-      font-weight: bold;
-      margin-bottom: 16px;
-    }
+    /* 결과 메시지 및 버튼 */
+    .result-area { margin-top: 40px; text-align: center; }
+    .message { font-size: 22px; font-weight: bold; margin-bottom: 20px; min-height: 30px; }
     .message.good { color: var(--correct); }
     .message.bad { color: var(--wrong); }
 
@@ -180,17 +142,23 @@
       border-radius: 14px;
       border: none;
       cursor: pointer;
-      color: #fff;
+      color: #000; /* 버튼 글씨는 검정으로 가독성 확보 */
       background-color: var(--primary);
+      transition: opacity 0.3s;
     }
     .action-btn:disabled {
-      background-color: #ccc;
+      background-color: #444;
+      color: #888;
       cursor: not-allowed;
     }
-    .action-btn.retry {
-      background-color: #666;
-    }
 
+    /* 접근성 힌트 */
+    .a11y-hint {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #666;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
@@ -201,14 +169,14 @@
       <p class="desc" id="storyTitle">순서대로 눌러보세요</p>
     </header>
 
-    <div class="progress-bar" id="progressBar">
-      </div>
+    <div class="progress-bar" id="progressBar"></div>
 
-    <div class="slots-area" id="slotsArea">
-      </div>
+    <div class="slots-area" id="slotsArea"></div>
+    <div class="a11y-hint">※ 위 칸을 누르면 다시 취소됩니다.</div>
 
-    <div class="options-area" id="optionsArea">
-      </div>
+    <div style="margin: 20px 0;"></div>
+
+    <div class="options-area" id="optionsArea"></div>
 
     <div class="result-area">
       <div id="message" class="message"></div>
@@ -217,24 +185,28 @@
   </div>
 
   <script>
-    // 데이터: 어르신들에게 익숙한 일상 소재
+    /**
+     * [문제 데이터 수정]
+     * 어르신들이 헷갈리지 않도록 인과관계가 아주 명확한 자연/일상 소재로 변경했습니다.
+     */
     const quizData = [
       {
-        title: "외출 준비 하기",
-        steps: ["세수를 한다", "옷을 입는다", "신발을 신는다"]
+        title: "식물 키우기",
+        steps: ["씨앗을 심는다", "싹이 나온다", "꽃이 핀다"]
       },
       {
-        title: "라면 끓이기",
-        steps: ["물을 끓인다", "면과 스프를 넣는다", "맛있게 먹는다"]
+        title: "양치질 하기",
+        steps: ["치약을 짠다", "이를 닦는다", "물로 헹군다"]
       },
       {
-        title: "전화 걸기",
-        steps: ["수화기를 든다", "번호를 누른다", "상대방과 통화한다"]
+        title: "설거지 하기",
+        steps: ["수세미에 세제를 묻힌다", "그릇을 닦는다", "물로 헹군다"]
       }
     ];
 
     let currentIdx = 0;
-    let currentSlots = [null, null, null]; // 현재 채워진 답 (인덱스 저장)
+    let currentSlots = [null, null, null]; 
+    let shuffledOptions = []; // 현재 문제의 섞인 보기들
     let isFinished = false;
 
     const els = {
@@ -247,21 +219,20 @@
     };
 
     function initQuiz() {
-      // 1. 화면 초기화
+      // 상태 초기화
       currentSlots = [null, null, null];
       isFinished = false;
       els.msg.textContent = "";
       els.msg.className = "message";
       
       els.btn.textContent = "정답 확인하기";
-      els.btn.className = "action-btn";
       els.btn.onclick = checkAnswer;
-      els.btn.disabled = true; // 다 채우기 전엔 비활성
+      els.btn.disabled = true;
 
       const data = quizData[currentIdx];
       els.title.textContent = `[문제 ${currentIdx + 1}] ${data.title}`;
 
-      // 2. 진행바 업데이트
+      // 진행바 그리기
       els.progress.innerHTML = '';
       quizData.forEach((_, i) => {
         const dot = document.createElement('div');
@@ -269,133 +240,132 @@
         els.progress.appendChild(dot);
       });
 
-      // 3. 슬롯(빈칸) 생성
-      renderSlots();
+      // 보기 섞기 (문제 시작할 때 딱 한 번만 수행)
+      // 원본 텍스트와 원래 인덱스를 객체로 저장
+      shuffledOptions = data.steps.map((text, idx) => ({ text, originalIdx: idx }));
+      shuffleArray(shuffledOptions);
 
-      // 4. 보기 버튼 생성 (섞어서)
-      renderOptions(data.steps);
+      render();
+    }
+
+    // 화면 그리기 통합 함수
+    function render() {
+      renderSlots();
+      renderOptions();
+      
+      // 3칸 다 찼는지 확인해서 버튼 활성화
+      const allFilled = currentSlots.every(s => s !== null);
+      if (!isFinished) {
+        els.btn.disabled = !allFilled;
+      }
     }
 
     function renderSlots() {
       els.slots.innerHTML = "";
-      // 항상 3단계로 고정 (복잡도 낮춤)
       for(let i=0; i<3; i++) {
         const slot = document.createElement('div');
-        slot.className = currentSlots[i] ? "slot filled" : "slot empty";
-        slot.setAttribute('data-num', i + 1); // 1, 2, 3 숫자
+        const item = currentSlots[i];
         
-        // 내용이 있으면 텍스트 표시, 없으면 빈칸
-        if (currentSlots[i]) {
-          slot.textContent = currentSlots[i].text;
-          // 클릭 시 취소 기능 (다시 내려보내기)
-          slot.onclick = () => removeSlot(i);
+        slot.className = item ? "slot filled" : "slot";
+        slot.setAttribute('data-num', i + 1);
+        
+        if (item) {
+          slot.textContent = item.text;
+          // 클릭 시 취소
+          slot.onclick = () => {
+            if(!isFinished) {
+              currentSlots[i] = null;
+              render();
+            }
+          };
         } else {
-          slot.textContent = "";
+          slot.textContent = "여기를 눌러 선택하세요";
+          // 빈칸 클릭 시엔 아무 동작 안함 (보기 버튼을 눌러야 함)
+          slot.style.color = "#555"; 
+          slot.style.fontSize = "16px";
         }
         els.slots.appendChild(slot);
       }
-      
-      // 버튼 활성/비활성 체크
-      const allFilled = currentSlots.every(s => s !== null);
-      els.btn.disabled = !allFilled;
     }
 
-    function renderOptions(originalSteps) {
+    function renderOptions() {
       els.options.innerHTML = "";
-      
-      // 퀴즈 시작할 때만 섞고, 그 뒤로는 상태만 변경해야 함
-      // 여기서는 간략화를 위해 매번 DOM을 다시 그림 (사용자 경험상 문제 없음)
-      
-      // 현재 옵션들이 섞여있는 순서가 필요하므로, 
-      // 초기화 시점에 섞어둔 배열을 사용하는게 좋으나, 
-      // 코드를 단순하게 하기 위해 화면에 뿌릴 때 섞인 배열을 생성.
-      // *주의: 렌더링 할 때마다 섞으면 안되므로 id 기반 관리*
-      
-      if (!this.shuffledOptions) {
-        this.shuffledOptions = originalSteps.map((text, idx) => ({ text, originalIdx: idx }));
-        shuffleArray(this.shuffledOptions);
-      }
-
-      this.shuffledOptions.forEach((opt, idx) => {
+      shuffledOptions.forEach((opt) => {
         const btn = document.createElement('div');
         btn.className = "option-btn";
         btn.textContent = opt.text;
+
+        // 이미 슬롯에 선택된 녀석인지 확인
+        const isSelected = currentSlots.some(s => s && s.text === opt.text);
         
-        // 이미 슬롯에 올라가 있는 녀석인지 확인
-        const isUsed = currentSlots.some(s => s && s.text === opt.text);
-        if (isUsed) {
+        if (isSelected) {
           btn.classList.add('selected');
         } else {
-          btn.onclick = () => selectOption(opt);
+          // 선택되지 않았으면 클릭 이벤트 연결
+          if (!isFinished) {
+            btn.onclick = () => selectOption(opt);
+          }
         }
-
         els.options.appendChild(btn);
       });
     }
 
     function selectOption(optItem) {
-      // 빈 슬롯 찾기
+      // 앞에서부터 빈칸 찾기
       const emptyIdx = currentSlots.findIndex(item => item === null);
       if (emptyIdx === -1) return; // 꽉 찼으면 무시
 
-      // 슬롯에 데이터 채우기
       currentSlots[emptyIdx] = optItem;
-      
-      // 화면 갱신
-      renderSlots();
-      renderOptions(); // 옵션 버튼 상태 갱신
-    }
-
-    function removeSlot(slotIdx) {
-      if (isFinished) return; // 끝났으면 수정 불가
-      currentSlots[slotIdx] = null;
-      renderSlots();
-      renderOptions();
+      render();
     }
 
     function checkAnswer() {
       const data = quizData[currentIdx];
-      // 사용자가 맞춘 순서대로 텍스트 추출
+      // 사용자가 채운 텍스트 배열
       const userAnswers = currentSlots.map(s => s.text);
       
-      // 정답 비교
+      // 원본 정답 배열과 비교
       const isCorrect = JSON.stringify(userAnswers) === JSON.stringify(data.steps);
 
       if (isCorrect) {
         els.msg.textContent = "정답입니다! 참 잘하셨어요 👏";
         els.msg.className = "message good";
         els.btn.textContent = "다음 문제 풀기";
-        els.btn.className = "action-btn";
+        els.btn.disabled = false;
         els.btn.onclick = nextQuiz;
         isFinished = true;
+        
+        // 정답 시 보기 버튼들 비활성화 처리 (UI 갱신)
+        render(); 
       } else {
-        els.msg.textContent = "순서가 조금 다른 것 같아요. 다시 해보세요.";
+        els.msg.textContent = "순서가 조금 달라요. 다시 생각해보세요.";
         els.msg.className = "message bad";
         
-        // 틀렸을 때 시각적 효과 (흔들기 대신 빨간 테두리 잠깐)
+        // 틀렸을 때 시각적 피드백 (테두리 붉게)
         els.slots.style.borderColor = "var(--wrong)";
-        setTimeout(() => els.slots.style.borderColor = "#ccc", 1000);
+        setTimeout(() => els.slots.style.borderColor = "#555", 1000);
       }
     }
 
     function nextQuiz() {
       currentIdx++;
       if (currentIdx >= quizData.length) {
-        // 모든 문제 완료
+        // 엔딩 화면
         document.body.innerHTML = `
-          <div class="container" style="text-align:center; padding-top:50px;">
-            <h1 style="color:var(--primary)">건강한 두뇌!</h1>
-            <p style="font-size:20px; line-height:1.6;">모든 문제를 다 맞추셨습니다.<br>오늘도 즐거운 하루 보내세요.</p>
-            <button class="action-btn" onclick="location.reload()" style="margin-top:30px;">처음부터 다시 하기</button>
+          <div class="container" style="text-align:center; padding-top:50px; border:1px solid #333;">
+            <h1 style="color:var(--primary)">건강한 두뇌 완성!</h1>
+            <p style="font-size:20px; line-height:1.6; color:#ddd;">
+              모든 문제를 훌륭하게 맞추셨습니다.<br>
+              오늘도 기분 좋은 하루 보내세요.
+            </p>
+            <button class="action-btn" onclick="location.reload()" style="margin-top:40px;">처음부터 다시 하기</button>
           </div>
         `;
       } else {
-        this.shuffledOptions = null; // 다음 문제를 위해 섞기 초기화
         initQuiz();
       }
     }
 
-    // 배열 섞기 유틸
     function shuffleArray(arr) {
       for (let i = arr.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -403,7 +373,7 @@
       }
     }
 
-    // 시작
+    // 앱 시작
     initQuiz();
 
   </script>
