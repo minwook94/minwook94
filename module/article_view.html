@@ -1,0 +1,1033 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="description" content="장기전 가기엔 보급품과 장비 부족, 호르무즈 해협 전략적 요충지인 케슘섬 점령안 부상 등 미·이란 군사 시나리오를 정리했습니다.">
+<title>"장기전 가기엔…" 미국, 이란 공격 시나리오 3가지 부상 | 한국경제</title>
+<link rel="stylesheet" href="https://hkstatic.hankyung.com/resource/common/font/NotoSans/NotoSans.css">
+<link rel="canonical" href="https://www.hankyung.com/article/202603270107i">
+<style>
+  /* 기본 리셋 및 모바일 화면처럼 보이게 래핑 */
+  html {
+    height: 100%;
+  }
+  body {
+    font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+    background: #e4e9f2;
+    margin: 0;
+    padding: 20px;
+    padding-bottom: max(20px, env(safe-area-inset-bottom));
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    box-sizing: border-box;
+    min-height: 100%;
+    min-height: 100dvh;
+  }
+  /* 뷰어 열릴 때 배경 스크롤 방지 */
+  body.binge-viewer-open {
+    overflow: hidden;
+    height: 100%;
+    max-height: 100dvh;
+  }
+
+  .phone-wrapper {
+    width: 100%;
+    max-width: 400px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(20, 44, 103, 0.12);
+    overflow: hidden;
+    min-height: min(700px, calc(100dvh - 40px));
+    max-height: calc(100dvh - 40px);
+    height: min(700px, calc(100dvh - 40px));
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* 뷰어 모드: 일반 뷰 숨김 후에도 스크롤 영역 높이 유지 (flex + min-height:0) */
+  .phone-wrapper.is-binge-mode {
+    display: flex;
+    flex-direction: column;
+  }
+  .phone-wrapper.is-binge-mode #binge-viewer {
+    position: relative;
+    flex: 1 1 0;
+    min-height: 0;
+    height: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scroll-padding-top: env(safe-area-inset-top, 0px);
+    scroll-padding-bottom: max(48px, env(safe-area-inset-bottom, 0px));
+  }
+
+  @media (min-width: 900px) {
+    body.binge-viewer-open {
+      touch-action: none;
+    }
+    body.binge-viewer-open .phone-wrapper {
+      touch-action: auto;
+    }
+    body {
+      padding: 24px 32px;
+      align-items: stretch;
+    }
+    .phone-wrapper {
+      max-width: 880px;
+      margin: 0 auto;
+      height: calc(100dvh - 48px);
+      min-height: 480px;
+      max-height: none;
+    }
+    .hk-view__scroll {
+      padding: 28px 40px;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    .hk-article__headline { font-size: 28px; }
+    .card { margin: 20px 32px; padding: 24px 28px; }
+    .binge-header { padding-left: 32px; padding-right: 32px; }
+  }
+
+  /* 일반 기사: 래퍼 안에서 세로 스크롤 */
+  #normal-view {
+    flex: 1 1 0;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  #normal-view .hk-view__topbar {
+    flex-shrink: 0;
+    z-index: 2;
+  }
+  #normal-view .hk-view__scroll {
+    flex: 1 1 0;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    scroll-padding-bottom: max(40px, env(safe-area-inset-bottom, 0px));
+    padding: 0 0 max(28px, env(safe-area-inset-bottom, 0px));
+    background: #fff;
+  }
+
+  /* 한경 기사뷰 느낌(프로토타입 스코프) */
+  .hk-view__topbar {
+    flex-shrink: 0;
+    background: #142c67;
+    color: #fff;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    border-bottom: 1px solid #0d214d;
+  }
+  .hk-view__logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #fff;
+    font-weight: 800;
+    font-size: 15px;
+    letter-spacing: -0.02em;
+  }
+  .hk-view__logo::before {
+    content: '';
+    width: 22px;
+    height: 22px;
+    margin-right: 8px;
+  }
+  .hk-view__section {
+    font-size: 11px;
+    color: #aaa;
+    text-align: right;
+    line-height: 1.35;
+  }
+  .hk-article {
+    padding: 20px 18px 32px;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  .hk-article__label {
+    margin: 0 0 10px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #142c67;
+  }
+  .hk-article__headline {
+    margin: 0 0 16px;
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 1.35;
+    letter-spacing: -0.03em;
+    color: #111;
+  }
+  .hk-article__byline {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 6px;
+  }
+  .hk-article__byline a {
+    color: #142c67;
+    font-weight: 600;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(20, 44, 103, 0.35);
+  }
+  .hk-article__time {
+    font-size: 12px;
+    color: #888;
+    margin-bottom: 20px;
+  }
+  .hk-article__time .sep { margin: 0 6px; color: #ddd; }
+  .hk-article__summary {
+    margin: 0 0 24px;
+    padding: 16px 18px;
+    background: #f0f3fa;
+    border-left: 3px solid #142c67;
+    font-size: 15px;
+    line-height: 1.65;
+    color: #333;
+    white-space: pre-line;
+  }
+  .hk-article__figure {
+    margin: 0 0 20px;
+  }
+  .hk-article__figure img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 2px;
+  }
+  .hk-article__caption {
+    margin-top: 8px;
+    font-size: 12px;
+    color: #666;
+  }
+  .hk-article__body {
+    font-size: 17px;
+    line-height: 1.75;
+    color: #222;
+  }
+  .hk-article__body p {
+    margin: 0 0 1.15em;
+  }
+  .hk-article__copyright {
+    margin: 28px 0 8px;
+    font-size: 12px;
+    color: #888;
+  }
+  .btn-binge {
+    display: block; width: 100%; background: #142c67; color: white; border: none;
+    padding: 16px; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer;
+    margin-top: 30px; box-shadow: 0 4px 6px rgba(20, 44, 103, 0.35);
+  }
+  .btn-binge:active { background: #0d214d; }
+
+  /* 정주행(피드) 뷰어 — 라이트 톤 + #142c67 포인트 */
+  #binge-viewer {
+    display: none;
+    background: linear-gradient(180deg, #f7f9fc 0%, #eef2f8 120px);
+    color: #1a1a1a;
+    height: 100%;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    box-sizing: border-box;
+    outline: none;
+    scroll-padding-top: env(safe-area-inset-top, 0px);
+    scroll-padding-bottom: max(48px, env(safe-area-inset-bottom, 0px));
+  }
+
+  /* 기사 패널이 열릴 때 타임라인 조작 차단(inert 미지원 브라우저 보조) */
+  #binge-viewer.is-binge-inert {
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .binge-header {
+    position: sticky;
+    top: 0;
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(10px);
+    padding: 14px 18px;
+    padding-top: max(14px, env(safe-area-inset-top));
+    border-bottom: 1px solid #dde3ed;
+    box-shadow: 0 1px 0 rgba(20, 44, 103, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    z-index: 10;
+  }
+  #binge-viewer-title {
+    font-weight: 800;
+    font-size: 14px;
+    letter-spacing: -0.02em;
+    color: #111;
+    line-height: 1.3;
+  }
+  .close-btn {
+    cursor: pointer;
+    color: #5a6270;
+    font-size: 14px;
+    background: none;
+    border: none;
+    padding: 8px 4px;
+    font: inherit;
+  }
+  .close-btn:focus-visible { outline: 2px solid #142c67; outline-offset: 2px; }
+
+  /* 피드 카드 스타일 — 스크롤 끝 여백(홈 인디케이터·마지막 줄 안 잘리게) */
+  .feed-panel {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: max(40px, env(safe-area-inset-bottom, 0px));
+  }
+  .feed-intro {
+    margin: 16px 15px 4px;
+    padding: 14px 16px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #ffffff 0%, #f4f6fb 100%);
+    border: 1px solid #e2e6ef;
+    border-left: 3px solid #142c67;
+  }
+  .feed-intro-title {
+    margin: 0 0 6px;
+    font-size: 14px;
+    font-weight: 800;
+    color: #111;
+    letter-spacing: -0.02em;
+  }
+  .feed-intro-desc {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.55;
+    color: #5c6370;
+  }
+  .card {
+    background: #fff;
+    margin: 12px 15px;
+    padding: 18px 16px 16px;
+    border-radius: 10px;
+    border: 1px solid #e5e8ee;
+    border-left: 4px solid #142c67;
+    box-shadow: 0 2px 12px rgba(20, 44, 103, 0.08);
+    cursor: pointer;
+    transition: background 0.15s ease, transform 0.1s ease, border-color 0.15s ease;
+  }
+  .card:hover {
+    background: #fafbfe;
+    border-color: #d0d8e8;
+  }
+  .card:active { transform: scale(0.99); }
+  .card:focus-visible { outline: 2px solid #142c67; outline-offset: 2px; }
+  .card-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .card-tag {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    color: #142c67;
+    text-transform: uppercase;
+  }
+  .card-date { font-size: 11px; color: #6b7280; flex-shrink: 0; }
+  .card-title {
+    font-size: 16px;
+    font-weight: 800;
+    line-height: 1.4;
+    letter-spacing: -0.025em;
+    margin-bottom: 10px;
+    color: #111;
+  }
+  .card-summary { font-size: 14px; line-height: 1.65; color: #444; }
+  .card-hint {
+    font-size: 11px;
+    color: #6b7280;
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid #e8ecf2;
+  }
+
+  /* 기사 본문: phone-wrapper 기준 전체 덮음 · 열릴 때만 보이게(전환) */
+  .article-detail {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    inset: 0;
+    z-index: 25;
+    background: #f5f7fb;
+    color: #222;
+    border-radius: inherit;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.22s ease, visibility 0.22s ease;
+  }
+  .article-detail.is-open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+  .article-detail-header {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    padding-top: max(12px, env(safe-area-inset-top));
+    border-bottom: 1px solid #dde3ed;
+    background: rgba(255, 255, 255, 0.98);
+  }
+  .btn-back-list {
+    background: #eef2f8;
+    color: #142c67;
+    border: none;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    font: inherit;
+  }
+  .btn-back-list:hover { background: #142c67; color: #fff; }
+  .btn-back-list:focus-visible { outline: 2px solid #142c67; outline-offset: 2px; }
+  .article-detail-scroll {
+    flex: 1 1 0;
+    min-height: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    padding: 20px 18px;
+    padding-bottom: max(40px, env(safe-area-inset-bottom, 0px));
+    scroll-padding-bottom: max(32px, env(safe-area-inset-bottom, 0px));
+  }
+  .article-detail-meta { font-size: 12px; color: #6b7280; margin-bottom: 12px; letter-spacing: 0.02em; }
+  .article-detail-title { font-size: 20px; font-weight: 800; line-height: 1.38; margin: 0 0 20px; color: #111; letter-spacing: -0.03em; }
+  .article-detail-body { font-size: 15px; line-height: 1.78; color: #333; }
+  .article-detail-body p { margin: 0 0 16px; }
+
+  /* 세부 기사 내 예시 광고 */
+  .article-ad {
+    margin: 0 0 24px;
+    border-radius: 10px;
+    border: 1px solid #e2e6ef;
+    background: linear-gradient(145deg, #ffffff 0%, #f4f6fb 50%, #fafbfd 100%);
+    overflow: hidden;
+  }
+  .article-ad-badge {
+    display: block;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    color: #6b7280;
+    padding: 8px 12px 0;
+    text-transform: uppercase;
+  }
+  .article-ad-inner {
+    padding: 12px 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .article-ad-visual {
+    min-height: 72px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #eef2fa 0%, #dce6f8 40%, #142c67 88%, #0d214d 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -0.02em;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.45);
+  }
+  .article-ad-copy {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.55;
+    color: #5c6370;
+  }
+  .article-ad-cta {
+    font-size: 11px;
+    color: #142c67;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+  }
+
+  /* 스켈레톤 로딩 — 피드와 동일한 라이트 톤 */
+  .skeleton-block {
+    padding: 8px 15px 15px;
+    background: transparent;
+  }
+  .feed-loading-label {
+    margin: 0 0 10px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #6b7280;
+    text-align: center;
+    letter-spacing: -0.01em;
+  }
+  .skeleton-card {
+    background: #fff;
+    margin-top: 0;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #e5e8ee;
+    border-left: 4px solid rgba(20, 44, 103, 0.45);
+    box-shadow: 0 2px 12px rgba(20, 44, 103, 0.08);
+  }
+  .skeleton-line {
+    height: 12px;
+    border-radius: 4px;
+    background: linear-gradient(90deg, #f0f2f8 0%, #ffffff 45%, #f5f7fb 100%);
+    background-size: 200% 100%;
+    animation: shimmer 1.2s ease-in-out infinite;
+    margin-bottom: 10px;
+  }
+  .skeleton-line.short { width: 40%; }
+  .skeleton-line.title { height: 18px; width: 85%; }
+  .skeleton-line.body { height: 14px; width: 100%; }
+  .skeleton-line.body.narrow { width: 92%; }
+  @keyframes shimmer {
+    0% { background-position: 100% 0; }
+    100% { background-position: -100% 0; }
+  }
+
+  #scroll-sentinel {
+    height: 1px;
+    margin: 0;
+    pointer-events: none;
+    visibility: hidden;
+  }
+
+  .feed-end {
+    text-align: center;
+    padding: 8px 16px 0;
+    margin-bottom: max(8px, env(safe-area-inset-bottom, 0px));
+    color: #6b7280;
+    font-size: 14px;
+    display: none;
+  }
+  .feed-end.visible { display: block; }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  /* 정주행·상세 스크롤바·선택 하이라이트 */
+  #binge-viewer,
+  .article-detail-scroll {
+    scrollbar-color: rgba(20, 44, 103, 0.35) #eef1f6;
+    scrollbar-width: thin;
+  }
+  #binge-viewer::-webkit-scrollbar,
+  .article-detail-scroll::-webkit-scrollbar {
+    width: 8px;
+  }
+  #binge-viewer::-webkit-scrollbar-track,
+  .article-detail-scroll::-webkit-scrollbar-track {
+    background: #eef1f6;
+  }
+  #binge-viewer::-webkit-scrollbar-thumb,
+  .article-detail-scroll::-webkit-scrollbar-thumb {
+    background: #c5ccd8;
+    border-radius: 4px;
+  }
+  #binge-viewer ::selection,
+  .article-detail ::selection {
+    background: rgba(20, 44, 103, 0.2);
+    color: #111;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .article-detail {
+      transition: none !important;
+    }
+    .skeleton-line {
+      animation: none !important;
+      background: #eef1f6;
+    }
+  }
+</style>
+</head>
+<body>
+
+  <div class="phone-wrapper">
+    <div id="normal-view">
+      <header class="hk-view__topbar">
+        <a href="https://www.hankyung.com" class="hk-view__logo" target="_blank" rel="noopener noreferrer">한국경제</a>
+        <span class="hk-view__section">한경글로벌마켓 · 글로벌 매크로</span>
+      </header>
+      <div class="hk-view__scroll">
+        <article class="hk-article">
+          <p class="hk-article__label">글로벌경제</p>
+          <h1 class="hk-article__headline">"장기전 가기엔…" 미국, 이란 공격 시나리오 3가지 부상</h1>
+          <div class="hk-article__byline">
+            <a href="https://www.hankyung.com/reporter/109" target="_blank" rel="noopener noreferrer">박신영</a> 특파원
+          </div>
+          <div class="hk-article__time">
+            입력 <span class="txt-date">2026.03.27 08:01</span>
+            <span class="sep">·</span>
+            수정 <span class="txt-date">2026.03.27 08:08</span>
+          </div>
+          <div class="hk-article__summary">장기전 가기엔 보급품과 장비 부족
+
+호르무즈 해협 전략적 요충지인 케슘섬 점령안 부상
+이란 원유수출 90% 차지하는 카르그섬도 공격 대상
+핵 물질 위치 안다면 특수작전 가능
+장기전 치르기엔 병력 부족</div>
+          <figure class="hk-article__figure">
+            <img src="https://img.hankyung.com/photo/202603/01.43751452.1.jpg" alt="사진=연합뉴스" width="1051" height="542" loading="lazy" decoding="async">
+            <figcaption class="hk-article__caption">사진=연합뉴스</figcaption>
+          </figure>
+          <div class="hk-article__body">
+            <p>미국이 중동에 수천 명 규모의 병력을 추가로 파병할 준비에 나서면서 이란에 대한 군사 행동 가능성이 한층 고조되고 있다. 평화 협상 여부를 둘러싼 미·이란 간 엇갈린 입장도 긴장을 키우고 있다.</p>
+            <p>26일(현지시간) CNBC에 따르면 미 국방부는 육군 제82공수사단 소속 약 3000명과 해병 원정대 2개 부대를 중동에 추가 배치하는 방안을 검토 중이다. 해당 병력은 이란 관련 군사 작전을 지원할 예정이다.</p>
+            <p>군사 전문가들은 이번 증원 규모가 장기적인 지상전이 아닌 제한적·단기 작전에 적합한 수준이라고 평가했다. 이에 따라 미국이 실행할 수 있는 군사 시나리오는 크게 세 가지로 압축된다.</p>
+            <p>첫 번째는 호르무즈 해협의 핵심 거점인 케슘섬 점령이다. 두 번째는 이란 석유 산업의 심장부인 카르그섬 타격 또는 점령이다. 세 번째는 이란의 핵 물질을 확보하기 위한 제한적 급습 작전이다.</p>
+            <p>백악관의 애나 켈리 대변인은 “병력 배치 관련 발표는 국방부에서 이뤄질 것”이라며 “트럼프 대통령은 언제든 모든 군사 옵션을 사용할 수 있다”고 밝혔다.</p>
+            <p>뉴욕=박신영 특파원 nyusos@hankyung.com</p>
+          </div>
+          <p class="hk-article__copyright">ⓒ 한경닷컴, 무단전재 및 재배포 금지</p>
+
+          <button type="button" class="btn-binge" id="btn-binge" aria-haspopup="dialog" aria-controls="binge-viewer">
+            <span aria-hidden="true">📺 </span>이 이슈, 처음부터 정주행하기
+          </button>
+        </article>
+      </div>
+    </div>
+
+    <div
+      id="binge-viewer"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="binge-viewer-title"
+      aria-hidden="true"
+      tabindex="-1"
+    >
+      <div class="binge-header">
+        <span id="binge-viewer-title">#미국_이란_시나리오_타임라인</span>
+        <button type="button" class="close-btn" id="btn-close-binge" aria-label="정주행 뷰어 닫기">✖ 나가기</button>
+      </div>
+
+      <div class="feed-panel" id="feed-panel">
+        <div class="feed-intro" aria-hidden="true">
+          <p class="feed-intro-title">미·이란 긴장, 지금까지의 흐름</p>
+          <p class="feed-intro-desc">호르무즈·병력·협상 시나리오를 과거순으로 이어 읽습니다. 카드를 누르면 본문 더미가 열립니다.</p>
+        </div>
+        <div id="feed-container"></div>
+        <div id="scroll-sentinel" aria-hidden="true"></div>
+
+        <div class="skeleton-block" id="loading-skeleton" hidden>
+          <p class="feed-loading-label" id="feed-loading-label" aria-hidden="true">다음 카드를 불러오는 중</p>
+          <div class="skeleton-card" aria-hidden="true">
+            <div class="skeleton-line short"></div>
+            <div class="skeleton-line title"></div>
+            <div class="skeleton-line body"></div>
+            <div class="skeleton-line body narrow"></div>
+          </div>
+        </div>
+
+        <p class="feed-end" id="feed-end" role="status">타임라인 30화를 모두 불러왔습니다.</p>
+        <div id="feed-status" class="visually-hidden" aria-live="polite" aria-atomic="true"></div>
+      </div>
+    </div>
+
+    <div
+      id="article-detail"
+      class="article-detail"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="article-detail-title"
+      aria-hidden="true"
+    >
+      <div class="article-detail-header">
+        <button type="button" class="btn-back-list" id="btn-back-list" aria-label="타임라인 목록으로 돌아가기">← 목록</button>
+      </div>
+      <div class="article-detail-scroll" id="article-detail-scroll">
+        <div class="article-detail-meta" id="article-detail-meta"></div>
+        <h2 class="article-detail-title" id="article-detail-title"></h2>
+        <aside class="article-ad" role="complementary" aria-label="광고">
+          <span class="article-ad-badge">AD · 프로토타입</span>
+          <div class="article-ad-inner">
+            <div class="article-ad-visual">한경 epicAI</div>
+            <p class="article-ad-copy">글로벌 Top 운용사가 참고하는 데이터로 만든 투자 인사이트 (더미 배너)</p>
+            <span class="article-ad-cta">홈 이동 →</span>
+          </div>
+        </aside>
+        <div class="article-detail-body" id="article-detail-body"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const normalView = document.getElementById('normal-view');
+    const bingeViewer = document.getElementById('binge-viewer');
+    const feedContainer = document.getElementById('feed-container');
+    const loadingSkeleton = document.getElementById('loading-skeleton');
+    const feedEnd = document.getElementById('feed-end');
+    const btnBinge = document.getElementById('btn-binge');
+    const btnClose = document.getElementById('btn-close-binge');
+    const sentinel = document.getElementById('scroll-sentinel');
+    const phoneWrapper = document.querySelector('.phone-wrapper');
+    const articleDetailEl = document.getElementById('article-detail');
+    const btnBackList = document.getElementById('btn-back-list');
+    const articleDetailMeta = document.getElementById('article-detail-meta');
+    const articleDetailTitleEl = document.getElementById('article-detail-title');
+    const articleDetailBodyEl = document.getElementById('article-detail-body');
+    const articleDetailScroll = document.getElementById('article-detail-scroll');
+    const feedStatus = document.getElementById('feed-status');
+
+    const MAX_EPISODES = 30;
+    /** 첫 N개는 네트워크 딜레이 없이 바로 표시 */
+    const INSTANT_EPISODES = 3;
+    /** 과거 → 오늘(2026.03.27) 순 · 미·이란·호르무즈 더미 타임라인 */
+    const EPISODE_DUMMY = [
+      { tag: '국제', date: '2026.01.06', title: '미 해군, 페르시아만 연합 순찰 빈도 높인다는 보도', summary: '상선 통행 안전을 명분으로 동맹국과 훈련·순찰을 늘리는 방안이 거론됐고, 이란은 “역내 군사화”라며 반발했습니다.' },
+      { tag: '에너지', date: '2026.01.13', title: '국제유가, 지정학 프리미엄 반영… 정유·해운株 동반 출렁', summary: '호르무즈 인근 해역 긴장이 거래 심리에 스며들며 브렌트 선물 변동성이 커졌습니다. 아시아 장에선 방산·에너지 업종이 교차로 움직였습니다.' },
+      { tag: '외교', date: '2026.01.20', title: '이란, 핵 관련 협상 재개 조건 다시 강조… “제재 완화 선행”', summary: '서방과의 접촉 가능성을 열어두면서도 선행 조건을 줄이지 않는 톤이었습니다. 유럽 외교 소식통은 “실무선 접촉은 제한적”이라고 전했습니다.' },
+      { tag: '군사', date: '2026.01.27', title: '美, 중동 기지 전력 재배치 검토… “방어적 조정” 설명', summary: '공개된 자료는 일부에 불과했지만, 항공·정찰 자산 이동이 포착됐다는 분석이 나왔습니다. 시장은 “단기 긴장 고조”로 읽었습니다.' },
+      { tag: '시장', date: '2026.02.03', title: '달러·안전자산 선호… 중동 리스크에 채권 매수 재개', summary: '금·국채로 자금이 이동하는 패턴이 뚜렷해졌고, 신흥국 외환은 변동성이 커졌습니다. 브로커는 “뉴스 속보에 민감한 국면”이라고 썼습니다.' },
+      { tag: '해운', date: '2026.02.10', title: '호르무즈 통행 선박 보험료 인상… 운임 협상 난항', summary: '일부 선사는 항로 우회를 검토했다는 소식이 나왔고, 물류비 상승이 수입 물가로 전가될 수 있다는 우려가 제기됐습니다.' },
+      { tag: '분석', date: '2026.02.17', title: '싱크탱크 “케슘섬·해협 통제 시나리오, 제한적 병력으론 단기 작전”', summary: '장기 점령과 해상 통제는 보급·병력 규모가 변수라는 보고서가 나왔습니다. 확전 가능성을 경고하는 목소리도 있었습니다.' },
+      { tag: '국제', date: '2026.02.24', title: '유엔 안보리, 중동 긴장 완화 촉구 성명… 실효성은 미지수', summary: '당사국 간 직접 대화 재개를 촉구했지만, 이행 메커니즘은 명시되지 않았습니다.' },
+      { tag: '속보', date: '2026.03.02', title: '트럼프 “모든 옵션 테이블 위에”… 이란에 압박 메시지', summary: '외교와 병행한다는 말과 함께 군사 옵션을 배제하지 않겠다는 표현이 반복됐습니다. 이란은 “대응할 준비”라고 맞받았습니다.' },
+      { tag: '에너지', date: '2026.03.05', title: '이란 원유 수출 허브 카르그섬, 시장 분석 리포트 부각', summary: '에너지 전문 매체는 수출의 상당 부분이 특정 거점에 집중돼 있다며 공급 차질 시나리오를 짚었습니다.' },
+      { tag: '군사', date: '2026.03.08', title: '미, 공수·해병 증원 검토 보도… “이란 관련 작전 지원”', summary: '병력 규모와 배치 시기는 불확실했지만, 시장은 지정학 프리미엄을 키웠습니다. 방산주는 단기 랠리를 보였습니다.' },
+      { tag: '외교', date: '2026.03.10', title: '비공개 채널 접촉 있었나… 양측 모두 “확인 불가”', summary: '협상 가능성을 점치는 관측과 회의론이 엇갈렸습니다. 외교 소식통은 “타이밍 이슈”라고만 말했습니다.' },
+      { tag: '시장', date: '2026.03.12', title: '아시아 증시, 중동 뉴스에 일제히 변동성 확대', summary: '개장 초반 매도 우위였다가 저가 매수가 유입되는 흐름이 반복됐습니다. 기관은 헤지 비중을 높였다고 전했습니다.' },
+      { tag: '분석', date: '2026.03.14', title: 'IISS “장기 지상전엔 중장비·보급 부족… 제한 작전엔 현실적”', summary: '투입 병력 규모가 시나리오별 제약을 만든다는 분석이 나왔습니다. 외교적 레버리지 수단으로 읽는 시각도 있었습니다.' },
+      { tag: '국제', date: '2026.03.16', title: '이란 의회 지도부 “인프라, 무제한 보복 대상 될 수 있어”', summary: '선을 넘는 행동에 대한 경고로 해석됐습니다. 서방 언론은 표현의 강도를 주목했습니다.' },
+      { tag: '에너지', date: '2026.03.17', title: 'OPEC+ 월례 전망서 중동 공급 리스크 언급 증가', summary: '실제 생산 계획 변경은 없었지만, 보고서 주석에 지정학 요인이 잦아졌습니다.' },
+      { tag: '속보', date: '2026.03.18', title: '백악관 “협상 진전 있었다” vs 이란 “직접 협상 사실 없다”', summary: '같은 시기 발표가 엇갈리며 불확실성이 커졌습니다. 시장은 “말의 전쟁” 국면이라고 불렀습니다.' },
+      { tag: '군사', date: '2026.03.19', title: '미 해군 5함대 출신 전문가 “목표는 섬 군사 활용 능력 차단”', summary: '작전 기간과 해상 운송 정상화 시점이 핵심 변수라는 인터뷰가 소개됐습니다.' },
+      { tag: '해운', date: '2026.03.20', title: '호르무즈 인근 선박 속보 알림 늘어… 선사·보험사 긴급 점검', summary: '항로 변경 비용과 지연 비용을 따지는 내부 시뮬레이션이 확대됐다고 업계 관계자는 전했습니다.' },
+      { tag: '분석', date: '2026.03.21', title: '“하르그섬·카르그섬” 거론… 에너지 시설 타격 논쟁 재점화', summary: '보도마다 지명과 시나리오가 달라 혼선이 있었습니다. 전문가들은 지도·시설 구분을 당부했습니다.' },
+      { tag: '외교', date: '2026.03.22', title: '유럽, 외교 해법 촉구 성명… 미·이란 직접 대화 촉진론', summary: '에너지 가격 안정을 이유로 외교적 해법을 강조했습니다. 이행 로드맵은 제시되지 않았습니다.' },
+      { tag: '국제', date: '2026.03.23', title: 'CNN·CNBC, 중동 병력 증원 추정치 놓고 전문가 패널', summary: '규모 추정은 엇갈렸지만 “단기 작전용”이라는 해석이 우세했습니다. 시장은 안전자산으로 이동했습니다.' },
+      { tag: '시장', date: '2026.03.24', title: '원·달러, 위험회피 심화에 변동… 수출입 업계 헤지 문의↑', summary: '단기 변동성 장세에서 납품 계약 재협상 문의가 늘었다는 은행 쪽 설명이 나왔습니다.' },
+      { tag: '속보', date: '2026.03.25', title: '트럼프, 이란 에너지 시설 공격 유예 기한 연장 언급', summary: '시장은 일단 “확전 속도 조절”로 해석했습니다. 유가는 등락을 반복했습니다.' },
+      { tag: '외교', date: '2026.03.25', title: '이란 “협상 간절한 쪽은 상대” 주장에 美 반박', summary: '언론은 말의 공방이 실제 군사 움직임과 동시에 진행된다고 정리했습니다.' },
+      { tag: '군사', date: '2026.03.26', title: '악시오스 “종전 협상 결렬 대비 최후 옵션 시나리오 검토”', summary: '보도 내용의 일부는 확인되지 않았지만, 시장 심리에 즉각 반영됐습니다.' },
+      { tag: '분석', date: '2026.03.26', title: '예비역 장교 “4~5천 명 지상병력으론 소규모 목표 점령엔 가능”', summary: '대규모 침공 수준은 아니라는 해석이 나왔습니다. 장기전 한계를 함께 짚었습니다.' },
+      { tag: '국제', date: '2026.03.27 07:12', title: '미 국방부, 병력 추가 배치 검토 보도에 “발표는 국방부가”', summary: '백악관은 군사 옵션을 열어둔다는 기존 입장을 반복했습니다. 언론은 시나리오별 병력·기간을 따졌습니다.' },
+      { tag: '속보', date: '2026.03.27 08:01', title: '“장기전 가기엔…” 美·이란 공격 시나리오 3가지 부상', summary: '케슘섬·카르그섬·핵 물질 급습 등이 거론됐고, 전문가들은 병력·보급 한계를 동시에 지적했습니다.' },
+      { tag: '시장', date: '2026.03.27 10:30', title: '아시아 증시 혼조… 방산·에너지는 강세, 성장주는 약세', summary: '지정학 테마가 업종별로 갈라졌습니다. 외국인 순매도는 일부 시장에서 이어졌습니다.' },
+      { tag: '에너지', date: '2026.03.27 14:50', title: '유가, 보도마다 등락 반복… “협상·군사 옵션 동시 진행”', summary: '당분간 변동성이 크게 유지될 수 있다는 증권사 코멘트가 잇따랐습니다.' },
+    ];
+
+    let episodeCount = 1;
+    let isFetching = false;
+    let feedComplete = false;
+    let observer = null;
+    let bingeHistoryPushed = false;
+    let articleDetailOpen = false;
+    let lastArticleCardEl = null;
+    let lastFocus = null;
+
+    function hideArticleDetailUI(opts) {
+      const restoreCard = opts && opts.restoreCardFocus;
+      bingeViewer.classList.remove('is-binge-inert');
+      bingeViewer.removeAttribute('inert');
+      articleDetailEl.classList.remove('is-open');
+      articleDetailEl.setAttribute('aria-hidden', 'true');
+      articleDetailBodyEl.innerHTML = '';
+      if (restoreCard && lastArticleCardEl && document.body.contains(lastArticleCardEl)) {
+        requestAnimationFrame(() => {
+          lastArticleCardEl.focus({ preventScroll: true });
+        });
+      }
+    }
+
+    function escapeHtml(s) {
+      return String(s)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    /** 기사 본문용 더미 문단(요약 다음에 이어 붙임) — 중동·군사·외교 톤 */
+    const ARTICLE_BODY_DUMMY = [
+      '페르시아만과 호르무즈 해협 일대는 군사·민간 선박이 함께 쓰는 핵심 항로라서, 군사적 긴장이 곧 해상 보험료·운임·에너지 가격으로 이어질 수 있습니다. 시장은 “뉴스 한 줄”에도 민감하게 반응하는 국면이라고 정리했습니다.',
+      '미국 측은 외교적 압박과 군사적 선택지를 동시에 유지한다는 메시지를 반복했고, 이란은 주권·제재 문제를 전면에 내세우며 맞섰습니다. 양측의 공개 발언이 같은 날 엇갈리면서 불확실성 프리미엄만 커지는 패턴이었습니다.',
+      '군사 전문가들은 병력 규모가 크지 않을 경우 “제한적·단기 작전”에 가깝다고 보는데, 이는 장기 점령이나 대규모 지상전과는 다른 계산이 필요하다는 뜻으로 해석됩니다. 보급선·기동 경로·민간 피해 가능성이 변수로 꼽혔습니다.',
+      '해협 인근의 전략적 거점은 지도·지명이 혼동되기 쉬워, 보도마다 시나리오가 달라 보이기도 했습니다. 에너지 시설과 해상 인프라의 위치는 완전히 다른 문제라는 지적이 나왔습니다.',
+      '국제 유가는 공급 차질 시나리오가 거론될 때마다 단기적으로 튀었고, 정유·화학·항공·해운 등 연쇄 업종의 원가 전망이 함께 움직였습니다. 다만 실제 생산·수출이 막히지 않은 한 “심리적 변동”에 그칠 수 있다는 분석도 있었습니다.',
+      '아시아 증시에서는 방산·에너지·안전자산 쪽으로 자금이 몰리는 날과, 성장주로 되돌아오는 날이 교차했습니다. 외국인은 변동성이 큰 구간에서 매매를 줄이는 경향이 있었다고 증권사가 전했습니다.',
+      '유럽과 중동 인접국들은 외교 해법을 강조했지만, 구체적 중재 로드맵은 제한적이었습니다. 에너지 의존도가 높은 지역일수록 “대화와 안정화”를 공개적으로 천명하는 모습이었습니다.',
+      '국내 수출입 업계는 환율·운임·납기를 동시에 점검했고, 일부는 계약서에 “지정학적 사유” 조항을 다시 읽는다고 전했습니다. 중소기업은 헤지 비용 부담이 커질 수 있다고 호소했습니다.',
+      '싱크탱크 보고서는 “군사 옵션은 협상 테이블에서의 레버리지”로 읽히는 순간이 있다고 분석했습니다. 다만 오판 시 확전으로 이어질 위험도 항상 언급됩니다.',
+      '미국 내 정치권에서도 “개입 범위·기간·비용”을 두고 논쟁이 나올 수 있어, 국내 정치 일정과 맞물리면 시장 변동성이 더 커질 수 있다는 관측이 나왔습니다.',
+      '이란 측은 보복 가능성을 시사하며, 민간 인프라와 군사 목표물을 구분할 수 없다는 경고를 반복했습니다. 국제사회는 민간 피해 가능성을 최소화해야 한다는 취지의 성명을 냈습니다.',
+      '보도·소셜미디어 속보는 같은 사건을 두고도 제목이 달라, 투자자는 “원문과 출처 확인”을 강조했습니다. 기관은 허위·과장 정보에 따른 과매수·과매도를 경계하라고 당부했습니다.',
+      '장기적으로는 “에너지 믹스·비축·다변화”가 다시 화두로 올라왔습니다. 단기 변동성은 피하기 어렵지만, 공급망·포트폴리오를 어떻게 분산할지가 기업 실무의 핵심 질문으로 정리됐습니다.',
+      '이 글은 프로토타입용 더미 본문이며, 실제 기사·수치·인용과는 무관합니다.',
+    ];
+
+    function buildArticleBody(row, episodeIndex) {
+      const n = ARTICLE_BODY_DUMMY.length;
+      const start = episodeIndex % n;
+      const rotated = ARTICLE_BODY_DUMMY.slice(start).concat(ARTICLE_BODY_DUMMY.slice(0, start));
+      const blocks = [row.summary].concat(rotated);
+      return blocks.map((t) => `<p>${escapeHtml(t)}</p>`).join('');
+    }
+
+    function showArticleDetail(episodeIndex) {
+      const row = EPISODE_DUMMY[episodeIndex];
+      if (!row) return;
+      lastArticleCardEl = feedContainer.querySelector(`[data-episode-index="${episodeIndex}"]`);
+      bingeViewer.classList.add('is-binge-inert');
+      bingeViewer.setAttribute('inert', '');
+      history.pushState({ bingeArticle: true, episode: episodeIndex }, '', window.location.href);
+      articleDetailOpen = true;
+      articleDetailMeta.textContent = `${row.date} · ${row.tag || '글로벌'} · 에피소드 ${episodeIndex + 1}`;
+      articleDetailTitleEl.textContent = row.title;
+      articleDetailBodyEl.innerHTML = buildArticleBody(row, episodeIndex);
+      articleDetailEl.classList.add('is-open');
+      articleDetailEl.setAttribute('aria-hidden', 'false');
+      requestAnimationFrame(() => {
+        articleDetailScroll.scrollTop = 0;
+        btnBackList.focus({ preventScroll: true });
+      });
+    }
+
+    function setBingeOpen(open) {
+      if (open) {
+        normalView.hidden = true;
+        phoneWrapper.classList.add('is-binge-mode');
+        document.body.classList.add('binge-viewer-open');
+        bingeViewer.style.display = 'block';
+        bingeViewer.setAttribute('aria-hidden', 'false');
+        requestAnimationFrame(() => {
+          bingeViewer.scrollTop = 0;
+          bingeViewer.focus({ preventScroll: true });
+          btnClose.focus({ preventScroll: true });
+        });
+      } else {
+        bingeViewer.style.display = 'none';
+        bingeViewer.setAttribute('aria-hidden', 'true');
+        phoneWrapper.classList.remove('is-binge-mode');
+        document.body.classList.remove('binge-viewer-open');
+        normalView.hidden = false;
+        if (lastFocus && document.body.contains(lastFocus)) {
+          lastFocus.focus({ preventScroll: true });
+        } else {
+          btnBinge.focus({ preventScroll: true });
+        }
+      }
+    }
+
+    function startBinge() {
+      lastFocus = document.activeElement;
+      articleDetailOpen = false;
+      hideArticleDetailUI();
+      feedContainer.innerHTML = '';
+      feedEnd.classList.remove('visible');
+      episodeCount = 1;
+      feedComplete = false;
+      bingeHistoryPushed = true;
+      history.pushState({ bingeViewer: true }, '', window.location.href);
+      setBingeOpen(true);
+      if (observer) observer.disconnect();
+      setupObserver();
+      loadNextArticle();
+    }
+
+    function closeBinge(fromPopState) {
+      if (!bingeViewer.style.display || bingeViewer.style.display === 'none') return;
+      if (!fromPopState && bingeHistoryPushed) {
+        bingeHistoryPushed = false;
+        const steps = articleDetailOpen ? 2 : 1;
+        articleDetailOpen = false;
+        hideArticleDetailUI();
+        history.go(-steps);
+        return;
+      }
+      bingeHistoryPushed = false;
+      if (observer) {
+        observer.disconnect();
+        observer = null;
+      }
+      articleDetailOpen = false;
+      hideArticleDetailUI();
+      setBingeOpen(false);
+    }
+
+    function setupObserver() {
+      observer = new IntersectionObserver(
+        (entries) => {
+          if (articleDetailOpen || !entries[0].isIntersecting || feedComplete) return;
+          loadNextArticle();
+        },
+        { root: bingeViewer, rootMargin: '160px', threshold: 0 }
+      );
+      observer.observe(sentinel);
+    }
+
+    /**
+     * IntersectionObserver는 센티넬이 계속 보이는 동안은 다시 콜백이 오지 않아
+     * 한두 화 이후 로드가 멈출 수 있음 → 로드 직후·스크롤 시 보충 검사.
+     */
+    function maybeLoadMoreIfNeeded() {
+      if (articleDetailOpen || feedComplete || isFetching) return;
+      const root = bingeViewer;
+      const gap = root.scrollHeight - root.scrollTop - root.clientHeight;
+      const sentinelRect = sentinel.getBoundingClientRect();
+      const rootRect = root.getBoundingClientRect();
+      const margin = 160;
+      const sentinelNear =
+        sentinelRect.top < rootRect.bottom + margin &&
+        sentinelRect.bottom > rootRect.top - margin;
+      const shortViewport = gap <= 180;
+      if (shortViewport || sentinelNear) loadNextArticle();
+    }
+
+    function scheduleMaybeLoadMore() {
+      requestAnimationFrame(() => {
+        maybeLoadMoreIfNeeded();
+      });
+    }
+
+    function loadNextArticle() {
+      if (articleDetailOpen || isFetching || feedComplete) return;
+      if (episodeCount > MAX_EPISODES) {
+        feedComplete = true;
+        loadingSkeleton.hidden = true;
+        feedEnd.classList.add('visible');
+        if (observer) observer.disconnect();
+        return;
+      }
+      isFetching = true;
+      const isInstant = episodeCount <= INSTANT_EPISODES;
+      const loadDelay = isInstant ? 0 : 500;
+
+      if (!isInstant) {
+        loadingSkeleton.hidden = false;
+        if (feedStatus) feedStatus.textContent = '다음 카드를 불러오는 중';
+      }
+
+      setTimeout(() => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        const ep = episodeCount;
+        const row = EPISODE_DUMMY[ep - 1];
+        const dateLine = row ? `${row.date} · ${ep}화` : `${ep}화`;
+        const title = row ? row.title : `미·이란 이슈 타임라인 ${ep}화`;
+        const summary = row
+          ? row.summary
+          : '이전 카드를 읽고 스크롤을 내리면 다음 더미 기사가 이어집니다.';
+        const tag = row && row.tag ? row.tag : '글로벌';
+        card.dataset.episodeIndex = String(ep - 1);
+        card.setAttribute('tabindex', '0');
+        card.setAttribute('role', 'button');
+        card.setAttribute('aria-label', `${title}. 기사 본문 보기`);
+        card.innerHTML = `
+          <div class="card-meta">
+            <span class="card-tag">${escapeHtml(tag)}</span>
+            <span class="card-date">${escapeHtml(dateLine)}</span>
+          </div>
+          <div class="card-title">${escapeHtml(title)}</div>
+          <div class="card-summary">${escapeHtml(summary)}</div>
+          <div class="card-hint">탭하여 전체 기사 보기</div>
+        `;
+        feedContainer.appendChild(card);
+        episodeCount++;
+        if (!isInstant) {
+          loadingSkeleton.hidden = true;
+          if (feedStatus) feedStatus.textContent = '';
+        }
+        isFetching = false;
+
+        if (episodeCount > MAX_EPISODES) {
+          feedComplete = true;
+          feedEnd.classList.add('visible');
+          if (observer) observer.disconnect();
+          return;
+        }
+        scheduleMaybeLoadMore();
+      }, loadDelay);
+    }
+
+    btnBinge.addEventListener('click', startBinge);
+    btnClose.addEventListener('click', () => closeBinge(false));
+    btnBackList.addEventListener('click', () => {
+      if (articleDetailOpen) history.back();
+    });
+
+    feedContainer.addEventListener('click', (e) => {
+      const card = e.target.closest('.card');
+      if (!card) return;
+      const idx = parseInt(card.dataset.episodeIndex, 10);
+      if (Number.isNaN(idx)) return;
+      showArticleDetail(idx);
+    });
+
+    feedContainer.addEventListener('keydown', (e) => {
+      if (e.key !== 'Enter' && e.key !== ' ') return;
+      const card = e.target.closest('.card');
+      if (!card) return;
+      e.preventDefault();
+      card.click();
+    });
+
+    window.addEventListener('popstate', (e) => {
+      if (e.state && e.state.bingeViewer && e.state.bingeArticle !== true && articleDetailOpen) {
+        articleDetailOpen = false;
+        hideArticleDetailUI({ restoreCardFocus: true });
+        requestAnimationFrame(() => scheduleMaybeLoadMore());
+        return;
+      }
+      if (bingeViewer.getAttribute('aria-hidden') === 'false') {
+        bingeHistoryPushed = false;
+        articleDetailOpen = false;
+        hideArticleDetailUI();
+        closeBinge(true);
+      }
+    });
+
+    bingeViewer.addEventListener('keydown', (e) => {
+      if (e.key !== 'Escape') return;
+      e.preventDefault();
+      if (articleDetailOpen) {
+        history.back();
+        return;
+      }
+      closeBinge(false);
+    });
+
+    articleDetailEl.addEventListener('keydown', (e) => {
+      if (e.key !== 'Escape') return;
+      e.preventDefault();
+      if (articleDetailOpen) history.back();
+    });
+
+    bingeViewer.addEventListener('scroll', () => maybeLoadMoreIfNeeded(), { passive: true });
+  </script>
+
+</body>
+</html>
